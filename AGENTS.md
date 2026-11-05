@@ -44,7 +44,11 @@ en config/fuentes.json. Si un medio no tiene RSS, lee su portada. Ventana: últi
    NUNCA inventes cifras.
 7. GENERAR HTML en docs/AAAA-MM-DD.html y actualizar docs/index.html con el archivo de días anteriores.
 8. GUARDAR en data/historial.json los temas del día (título, resumen de 1 línea, URLs, fecha).
-9. PUBLICAR (git commit + push) y ENVIAR EMAIL:
+9. PUBLICAR: crear el commit y ejecutar siempre `scripts/publicar.sh` para hacer
+   `git push origin main`; no ejecutar `git push` directamente. El script lee
+   `GITHUB_TOKEN` de `.env` y lo usa solo durante ese comando, sin escribirlo en
+   `.git/config`, incluirlo en la URL remota ni mostrarlo en pantalla. Después,
+   ENVIAR EMAIL:
    Asunto: "Transmisión del día — DD/MM/AAAA"
    Cuerpo: los 5 titulares clave + enlace al HTML.
 10. Si un medio falla (paywall, bloqueo, error), sigue con el resto y anótalo en el pie.
