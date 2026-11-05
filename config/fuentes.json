@@ -1,0 +1,81 @@
+{
+  "fecha_verificacion": "2026-11-06T00:27:00+01:00",
+  "ventana_horas": 24,
+  "medios": [
+    {
+      "nombre": "Marca",
+      "portada": "https://www.marca.com/",
+      "rss": null,
+      "estado": "no_disponible",
+      "consultado_en_informe": false,
+      "detalle": "La portada de marca.com quedó bloqueada por robots.txt. El directorio de la edición estadounidense en español ofrece un feed distinto (https://e00-us-marca.uecdn.es/rss/portada.xml); no se usó como sustituto de la edición solicitada."
+    },
+    {
+      "nombre": "ESPN Deportes",
+      "portada": "https://espndeportes.espn.com/",
+      "rss": null,
+      "estado": "no_disponible",
+      "consultado_en_informe": false,
+      "detalle": "La portada y la consulta de noticias mostraron bloqueo automatizado; no se confirmó un feed oficial de ESPN Deportes que pudiera leerse."
+    },
+    {
+      "nombre": "El Mundo",
+      "portada": "https://www.elmundo.es/",
+      "rss": null,
+      "estado": "no_disponible",
+      "consultado_en_informe": false,
+      "detalle": "La portada y la página RSS consultada no fueron accesibles al lector web."
+    },
+    {
+      "nombre": "El País",
+      "portada": "https://elpais.com/",
+      "rss": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/ultimas-noticias/portada",
+      "estado": "portada_y_articulos_disponibles_rss_xml_no_renderizado",
+      "consultado_en_informe": true,
+      "detalle": "El directorio oficial de RSS confirma feeds por sección. El feed de últimas noticias respondió con XML no representable por el lector web; se revisaron la portada y artículos individuales."
+    },
+    {
+      "nombre": "BBC Mundo",
+      "portada": "https://www.bbc.com/mundo",
+      "rss": "https://feeds.bbci.co.uk/mundo/rss.xml",
+      "estado": "portada_bloqueada_rss_xml_no_renderizado",
+      "consultado_en_informe": false,
+      "detalle": "La portada quedó bloqueada por robots.txt. El feed oficial respondió como XML que el lector web no pudo representar; la documentación de sindicación de BBC identifica el canal de portada de Mundo."
+    },
+    {
+      "nombre": "Fox News",
+      "portada": "https://www.foxnews.com/",
+      "rss": null,
+      "directorio_rss": "https://www.foxnews.com/story/foxnews-com-rss-feeds",
+      "estado": "articulos_disponibles_rss_no_recuperado",
+      "consultado_en_informe": true,
+      "detalle": "Se consultaron artículos de noticias; no se pudo recuperar el directorio o feed RSS en esta revisión."
+    },
+    {
+      "nombre": "CNN",
+      "portada": "https://www.cnn.com/",
+      "rss": "https://rss.cnn.com/rss/cnn_topstories.rss",
+      "estado": "no_disponible",
+      "consultado_en_informe": false,
+      "detalle": "La portada quedó bloqueada por robots.txt y el RSS principal devolvió un error 502."
+    },
+    {
+      "nombre": "Líder en Deportes",
+      "portada": "https://www.liderendeportes.com/",
+      "rss": "https://www.liderendeportes.com/feed/",
+      "estado": "portada_y_articulo_disponibles_rss_xml_no_renderizado",
+      "consultado_en_informe": true,
+      "detalle": "La portada y el artículo de Cristiano Ronaldo fueron accesibles. El feed respondió con tipo XML RSS, pero el lector web no mostró sus entradas."
+    }
+  ],
+  "fuentes_de_contraste": [
+    "Associated Press",
+    "EFE",
+    "CBS News",
+    "Ministerio de Trabajo y Economía Social de España",
+    "Fiscalía de la Corona británica",
+    "FIFA",
+    "Banco Central del Paraguay",
+    "Departamento de Estado de Estados Unidos"
+  ]
+}

@@ -4,142 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080a0d">
-  <meta name="description" content="Transmisión Rebelde: resumen diario de prensa, en preparación.">
-  <title>Transmisión Rebelde — en preparación</title>
+  <meta name="description" content="Archivo del resumen diario de prensa Transmisión Rebelde.">
+  <title>Transmisión Rebelde — archivo diario</title>
   <style>
-    :root {
-      color-scheme: dark;
-      --night: #080a0d;
-      --panel: rgba(15, 19, 24, .88);
-      --amber: #ffad42;
-      --amber-soft: #ffd08a;
-      --paper: #f5f1e8;
-      --muted: #a8adb3;
-      --line: rgba(255, 173, 66, .28);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      min-height: 100vh;
-      margin: 0;
-      display: grid;
-      place-items: center;
-      padding: 28px 18px;
-      overflow: hidden;
-      color: var(--paper);
-      background-color: var(--night);
-      background-image:
-        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.75) 50%, transparent 100%),
-        radial-gradient(1px 1px at 77% 28%, rgba(255,208,138,.8) 50%, transparent 100%),
-        radial-gradient(1px 1px at 32% 76%, rgba(255,255,255,.62) 50%, transparent 100%),
-        radial-gradient(1px 1px at 88% 83%, rgba(255,255,255,.55) 50%, transparent 100%),
-        radial-gradient(ellipse at 50% 0%, rgba(87, 54, 22, .23), transparent 60%);
-      background-size: 180px 180px, 230px 230px, 210px 210px, 260px 260px, auto;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    body::before {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      content: "";
-      opacity: .18;
-      background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.035) 4px);
-    }
-
-    main {
-      width: min(100%, 760px);
-      position: relative;
-      padding: clamp(30px, 7vw, 68px);
-      border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(23, 28, 34, .94), var(--panel));
-      box-shadow: 0 24px 100px rgba(0, 0, 0, .55), inset 0 1px rgba(255,255,255,.035);
-    }
-
-    main::before,
-    main::after {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      content: "";
-      border-color: var(--amber);
-      opacity: .9;
-    }
-
-    main::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
-    main::after { right: -1px; bottom: -1px; border-right: 2px solid; border-bottom: 2px solid; }
-
-    .eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 0 0 28px;
-      color: var(--amber-soft);
-      font: 600 .72rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-    }
-
-    .signal {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-      box-shadow: 0 0 14px rgba(255, 173, 66, .8);
-    }
-
-    h1 {
-      max-width: 13ch;
-      margin: 0;
-      color: var(--paper);
-      font: 700 clamp(2.25rem, 7vw, 4.7rem)/1.02 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      letter-spacing: -.065em;
-      text-wrap: balance;
-    }
-
-    h1 span { color: var(--amber); }
-
-    .rule {
-      width: 74px;
-      height: 2px;
-      margin: 34px 0 24px;
-      background: var(--amber);
-      box-shadow: 0 0 15px rgba(255, 173, 66, .45);
-    }
-
-    p {
-      max-width: 52ch;
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.12rem);
-      line-height: 1.7;
-    }
-
-    footer {
-      margin-top: 52px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,.09);
-      color: #747c84;
-      font: .68rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 520px) {
-      main { padding: 32px 26px; }
-      .eyebrow { letter-spacing: .13em; }
-      footer { margin-top: 38px; }
-    }
+    :root{color-scheme:dark;--night:#080a0d;--panel:rgba(15,19,24,.9);--amber:#ffad42;--soft:#ffd08a;--paper:#f5f1e8;--muted:#a8adb3;--line:rgba(255,173,66,.28)}
+    *{box-sizing:border-box}body{min-height:100vh;margin:0;padding:28px 18px;color:var(--paper);background-color:var(--night);background-image:radial-gradient(1px 1px at 12% 18%,#ffffffbf 50%,transparent 100%),radial-gradient(1px 1px at 77% 28%,#ffd08acc 50%,transparent 100%),radial-gradient(1px 1px at 32% 76%,#ffffff9e 50%,transparent 100%),radial-gradient(1px 1px at 88% 83%,#ffffff8c 50%,transparent 100%),radial-gradient(ellipse at 50% 0%,rgba(87,54,22,.23),transparent 60%);background-size:180px 180px,230px 230px,210px 210px,260px 260px,auto;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body:before{position:fixed;inset:0;pointer-events:none;content:"";opacity:.18;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.035) 4px)}main{position:relative;width:min(100%,900px);margin:7vh auto;padding:clamp(28px,6vw,64px);border:1px solid var(--line);background:linear-gradient(145deg,rgba(23,28,34,.96),var(--panel));box-shadow:0 24px 100px #0008,inset 0 1px #ffffff09}main:before,main:after{position:absolute;width:22px;height:22px;content:"";border-color:var(--amber);opacity:.9}main:before{top:-1px;left:-1px;border-top:2px solid;border-left:2px solid}main:after{right:-1px;bottom:-1px;border-right:2px solid;border-bottom:2px solid}.eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 26px;color:var(--soft);font:600 .72rem/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.2em;text-transform:uppercase}.signal{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px #ffad42cc}h1{margin:0;color:var(--paper);font:700 clamp(2rem,6vw,4rem)/1.05 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:-.06em}h1 span{color:var(--amber)}.rule{width:74px;height:2px;margin:28px 0;background:var(--amber);box-shadow:0 0 15px #ffad4273}.intro{max-width:58ch;color:var(--muted);font-size:1.05rem;line-height:1.7}.archive{display:grid;gap:12px;margin-top:36px}.report{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid rgba(255,173,66,.2);background:#0b0e12d9;color:var(--paper);text-decoration:none;transition:border-color .2s,transform .2s}.report:hover,.report:focus-visible{border-color:var(--amber);transform:translateY(-2px);outline:none}.report strong{display:block;font:600 1rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.report small{display:block;margin-top:5px;color:var(--muted);line-height:1.5}.arrow{color:var(--amber);font-size:1.3rem}.meta{margin-top:42px;padding-top:17px;border-top:1px solid #ffffff17;color:#858d95;font: .69rem/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase}@media(max-width:540px){body{padding:16px 12px}main{margin:3vh auto;padding:30px 22px}.eyebrow{letter-spacing:.12em}.report{padding:17px 16px}}
   </style>
 </head>
 <body>
   <main>
-    <p class="eyebrow"><span class="signal" aria-hidden="true"></span>Canal de información · Estado: preparación</p>
-    <h1>Transmisión Rebelde <span>— en preparación</span></h1>
+    <p class="eyebrow"><span class="signal" aria-hidden="true"></span>Canal editorial · Archivo de transmisiones</p>
+    <h1>Transmisión <span>Rebelde</span></h1>
     <div class="rule" aria-hidden="true"></div>
-    <p>Estamos preparando este espacio para el resumen diario de prensa. La transmisión comenzará próximamente.</p>
-    <footer>Frecuencia editorial · Señal provisional</footer>
+    <p class="intro">Resumen diario de actualidad en español. Cada expediente reúne las coberturas disponibles, distingue los hechos de las afirmaciones y enlaza las fuentes para que puedas contrastarlas.</p>
+    <section class="archive" aria-label="Informes diarios">
+      <a class="report" href="2026-11-06.html">
+        <span><strong>06 de noviembre de 2026</strong><small>9 temas · España, internacional, Estados Unidos, Latinoamérica y deportes</small></span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </section>
+    <footer class="meta">Frecuencia editorial · Informes ordenados por fecha</footer>
   </main>
 </body>
 </html>
