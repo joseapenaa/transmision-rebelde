@@ -68,5 +68,6 @@ Un solo archivo autocontenido, responsive y cómodo de leer en el móvil.
 ## Reglas
 - Escribe siempre en español, aunque la fuente esté en inglés.
 - No inventes noticias, cifras ni citas; cada afirmación enlaza a su fuente.
+- El archivo docs/.nojekyll debe existir siempre para que GitHub Pages omita Jekyll.
 - Las contraseñas van en .env, y .env va en .gitignore.
 - Si algo te bloquea (captcha, paywall, error de envío), no lo esquives: anótalo y avísame.
