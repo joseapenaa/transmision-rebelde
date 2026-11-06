@@ -8,7 +8,7 @@
     "repositorio": "https://github.com/joseapenaa/transmision-rebelde.git",
     "repositorio_y_pages_activos": true
   },
-  "metodo_envio": "Gmail",
+  "metodo_envio": "Plugin de Gmail",
   "cnn": "cnn.com en inglés",
   "extension_temas": {
     "importantes": "2-4 párrafos",

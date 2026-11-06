@@ -10,11 +10,13 @@ UNO A UNO, explica brevemente para qué lo necesitas y guarda la respuesta:
 1. Email de destino.
 2. Hora y zona horaria del envío (propuesta: 07:00, Europe/Madrid).
 3. Dónde publicar el HTML (propuesta: GitHub Pages desde /docs de este repo) y confirmación de que el repo y Pages están activos.
-4. Cómo enviar el email: conector de Gmail (preferido) o SMTP con contraseña de aplicación en .env.
+4. El envío del email se hace siempre con el plugin de Gmail.
 5. CNN: ¿cnn.com en inglés, CNN en Español o ambos?
 6. Extensión deseada por tema y número máximo de temas por día.
 7. Secciones o temas a priorizar o excluir.
 Nunca inventes credenciales. Si algo falla por permisos, detente y pídemelo.
+
+Si ya existe el informe de hoy, por ejemplo por una prueba manual, no te detengas: actualízalo con las novedades desde la última ejecución, publícalo y envía el email.
 
 ## Fuentes
 Marca (marca.com) · ESPN Deportes (espndeportes.espn.com) · El Mundo (elmundo.es) ·
@@ -48,7 +50,7 @@ en config/fuentes.json. Si un medio no tiene RSS, lee su portada. Ventana: últi
    `git push origin main`; no ejecutar `git push` directamente. El script lee
    `GITHUB_TOKEN` de `.env` y lo usa solo durante ese comando, sin escribirlo en
    `.git/config`, incluirlo en la URL remota ni mostrarlo en pantalla. Después,
-   ENVIAR EMAIL:
+   ENVIAR EMAIL siempre con el plugin de Gmail:
    Asunto: "Transmisión del día — DD/MM/AAAA"
    Cuerpo: los 5 titulares clave + enlace al HTML.
 10. Si un medio falla (paywall, bloqueo, error), sigue con el resto y anótalo en el pie.
