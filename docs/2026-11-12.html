@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ENTRANTE… CANAL SEGURO</p>
+    <p>&gt; BUSCANDO PORTADORA 4.7 GHz</p>
+    <p>&gt; DESCIFRANDO CABECERA TR-0007</p>
+    <p>&gt; VERIFICANDO FUENTES (9/16)</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE 07</strong></span>
+      <span>CLASIF. <strong>B-3</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>12.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0007</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>10</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>9 de 16</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">--:--</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión 07:00 h</span>
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">22:16</span><span class="texto"><a href="https://elpais.com/espana/2026-11-11/ultima-hora-de-la-huelga-general-y-la-actualidad-politica-en-directo.html" rel="noopener">El directo de EL PAÍS elevó a 74 los detenidos durante la huelga del 11-N.</a></span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">20:33</span><span class="texto"><a href="https://elpais.com/espana/2026-11-11/charles-deja-vientos-de-148-kilometros-por-hora-alumnos-sin-clase-vuelos-cancelados-y-rios-en-alerta.html" rel="noopener">Charles dejó rachas de hasta 148 km/h y avisos por lluvias y viento en varias comunidades.</a></span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">15:41</span><span class="texto"><a href="https://elpais.com/internacional/2026-11-11/las-negociaciones-de-abu-dabi-sobre-ucrania-concluyen-con-un-canje-de-prisioneros-y-sin-progresos-para-la-paz.html" rel="noopener">Rusia y Ucrania anunciaron un canje de prisioneros, sin acuerdo para detener la guerra.</a></span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">13:06</span><span class="texto"><a href="https://elpais.com/internacional/2026-11-11/evacuadas-alrededor-de-300-escuelas-de-italia-por-falsas-amenazas-de-bomba.html" rel="noopener">Italia evacuó al menos 300 escuelas por amenazas; no se encontraron explosivos.</a></span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">00:08</span><span class="texto"><a href="https://elpais.com/us/2026-11-11/scott-colom-gana-en-misisipi-el-primer-democrata-que-manda-el-estado-al-senado-en-casi-cuatro-decadas.html" rel="noopener">Scott Colom ganó el escaño de Misisipi tras más de una semana de recuento.</a></span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espana" aria-labelledby="t-espana"><div class="cabecera-sector"><span class="codigo">SECTOR 01</span><h2 id="t-espana">España</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-01-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-01 · España</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-01-titulo">ACTUALIZACIÓN: El 11-N concluye con protestas y un seguimiento desigual</h3><div class="resumen"><p>La huelga terminó sin una paralización homogénea: <a href="https://elpais.com/economia/2026-11-11/la-huelga-general-culmina-con-un-seguimiento-desigual-y-grandes-protestas-en-la-calle.html" rel="noopener">EL PAÍS</a> describe una jornada más visible en la calle, la industria y el transporte que en el comercio y la sanidad. En Madrid, la Delegación del Gobierno calculó 120.000 asistentes a la marcha y los convocantes, entre 600.000 y 750.000.</p><p>El <a href="https://elpais.com/espana/2026-11-11/ultima-hora-de-la-huelga-general-y-la-actualidad-politica-en-directo.html" rel="noopener">directo de EL PAÍS</a> elevó a 74 el total nacional de detenidos, según Interior, Mossos y Ertzaintza; el alcalde de Barcelona atribuyó 50 arrestos a los altercados de esa ciudad. La cifra de participación sigue siendo disputada y no hay un recuento nacional único por sectores.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/economia/2026-11-11/la-huelga-general-culmina-con-un-seguimiento-desigual-y-grandes-protestas-en-la-calle.html" rel="noopener">EL PAÍS</a></li><li><a class="chip" href="https://castellonaldia.elmundo.es/movil/sucesos/denuncian-una-carga-policial-contra-un-piquete-de-huelga-en-castellon-NP26927875" rel="noopener">El Mundo</a></li><li><a class="chip" href="https://edatv.news/sucesos/tension-huelga-general-11n-cargas-policiales-piquetes-trabajadores-pueden-acceder-empresas" rel="noopener">EDATV</a></li><li><a class="chip" href="https://www.libertaddigital.com/espana/politica/2026-11-11/en-directo-huelga-general-11n-seguimiento-servicios-minimos-noticias-ultima-hora-7488896/" rel="noopener">Libertad Digital</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular combina “seguimiento desigual” con “grandes protestas”; compara sectores y recoge estimaciones del Gobierno y los sindicatos, aunque dedica atención al cierre conflictivo.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">El Mundo</span><p class="enfoque-frase">El titular atribuye la denuncia al piquete; desarrolla la versión del comité y señala expresamente que no dispone de una versión policial.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">EDATV</span><p class="enfoque-frase">“Tensión”, “cargas” y trabajadores sin acceso colocan el foco en los incidentes iniciales; cita a sindicatos sobre heridos y bloqueos y no incorpora el balance final.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li><li class="enfoque"><span class="enfoque-medio">Libertad Digital</span><p class="enfoque-frase">El subtítulo habla de “discreta presencia” sindical y el directo presenta la convocatoria como un fracaso antes de cerrar el recuento; selecciona incidentes, críticas políticas y testimonios contrarios a la huelga.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">120.000 frente a 600.000–750.000</span>Las cifras de la marcha de Madrid proceden de la Delegación del Gobierno y de los convocantes, respectivamente; son estimaciones con metodologías distintas. Interior contabilizó 653 incidencias y más de 40 detenidos hasta las 14:00; los balances posteriores incorporan nuevos hechos. No equivalen a una medición del seguimiento laboral. <a href="https://www.europapress.es/nacional/noticia-interior-registra-once-detenidos-800-horas-quema-contenedores-atentado-contra-autoridad-20261111121046.html" rel="noopener">Corte de Interior citado por Europa Press</a> · <a href="https://elpais.com/espana/2026-11-11/ultima-hora-de-la-huelga-general-y-la-actualidad-politica-en-directo.html" rel="noopener">último balance de EL PAÍS: 74 detenidos</a></blockquote></div></article><article class="expediente" aria-labelledby="tema-TR-0007-02-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-02 · España</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-02-titulo">Charles deja vientos extremos, lluvias y alertas en varias comunidades</h3><div class="resumen"><p><a href="https://elpais.com/espana/2026-11-11/charles-deja-vientos-de-148-kilometros-por-hora-alumnos-sin-clase-vuelos-cancelados-y-rios-en-alerta.html" rel="noopener">EL PAÍS</a> informa de rachas de 148 km/h en Canarias y 147 km/h en Sierra Nevada, además de vuelos cancelados, clases suspendidas y alerta roja por la crecida del Tormes. El temporal también obligó a cancelar una manifestación en La Palma.</p><p><a href="https://www.aemet.es/es/eltiempo/prediccion/destacados/p5_t?tipo=p52tesp1" rel="noopener">AEMET</a> mantuvo su aviso especial por lluvias, viento y temporal marítimo hasta el jueves 12 de noviembre; las condiciones previstas corresponden a zonas concretas y deben consultarse por municipio.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/espana/2026-11-11/charles-deja-vientos-de-148-kilometros-por-hora-alumnos-sin-clase-vuelos-cancelados-y-rios-en-alerta.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular destaca las rachas máximas y varias consecuencias visibles; el texto atribuye registros y avisos a AEMET, Aena y autoridades, con énfasis en daños y evacuaciones preventivas.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">148 km/h</span>AEMET confirma en su aviso especial 39/2026 el episodio en el sur y oeste peninsulares y Canarias, con probabilidad alta (70 %) y duración hasta el jueves 12. El registro citado es una medición puntual, no una velocidad general para todas las zonas. <a href="https://www.aemet.es/es/eltiempo/prediccion/destacados/p5_t?tipo=p52tesp1" rel="noopener">Aviso especial 39/2026 de AEMET</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="internacional" aria-labelledby="t-internacional"><div class="cabecera-sector"><span class="codigo">SECTOR 02</span><h2 id="t-internacional">Internacional</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-03-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-03 · Internacional</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-03-titulo">ACTUALIZACIÓN: Abu Dabi acuerda un canje de presos, pero no acerca la paz</h3><div class="resumen"><p>La nueva ronda entre Rusia, Ucrania y Estados Unidos terminó sin avances sustanciales sobre un alto el fuego o los territorios, pero con el anuncio de un intercambio de prisioneros de guerra a gran escala. <a href="https://elpais.com/internacional/2026-11-11/las-negociaciones-de-abu-dabi-sobre-ucrania-concluyen-con-un-canje-de-prisioneros-y-sin-progresos-para-la-paz.html" rel="noopener">EL PAÍS</a> detalla que Moscú amplió el diálogo al marco de seguridad europeo y que la OTAN y la Unión Europea quedaron fuera de esa mesa.</p><p>El siguiente paso previsto es el viaje de los enviados estadounidenses Steve Witkoff y Jared Kushner a Moscú para informar a Vladímir Putin. El canje fue anunciado como acuerdo; las fuentes consultadas no dicen que ya se haya ejecutado. <a href="https://apnews.com/article/7c8d1024302e0c6ad8be064eec852a64" rel="noopener">Associated Press</a> coincide en que las conversaciones concluyeron sin un gran avance.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/internacional/2026-11-11/las-negociaciones-de-abu-dabi-sobre-ucrania-concluyen-con-un-canje-de-prisioneros-y-sin-progresos-para-la-paz.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular contrapone el canje con la falta de progreso; cita negociadores de ambos lados y resalta la exigencia rusa sobre la OTAN, con un enfoque geopolítico.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">2 días de diálogo</span>Associated Press confirma que las conversaciones mediadas por EE. UU. duraron dos días y produjeron un acuerdo anunciado para intercambiar prisioneros, no una tregua ni un acuerdo de paz. <a href="https://apnews.com/article/7c8d1024302e0c6ad8be064eec852a64" rel="noopener">Balance de AP</a></blockquote></div></article><article class="expediente" aria-labelledby="tema-TR-0007-04-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-04 · Internacional</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-04-titulo">Al menos 300 escuelas italianas fueron evacuadas tras amenazas por correo</h3><div class="resumen"><p><a href="https://elpais.com/internacional/2026-11-11/evacuadas-alrededor-de-300-escuelas-de-italia-por-falsas-amenazas-de-bomba.html" rel="noopener">EL PAÍS</a> informa de la evacuación de al menos 300 colegios y de inspecciones policiales sin hallazgo de explosivos. <a href="https://edatv.news/politica/alarma-italia-amenazas-bomba-obligan-evacuar-menos-300-colegios" rel="noopener">EDATV</a> destaca la reunión urgente convocada por Giorgia Meloni y la extensión de la alarma.</p><p>Associated Press distingue entre los centros que recibieron el mensaje y los evacuados: el Ministerio de Educación dijo que el correo llegó a más de 6.300 escuelas, pero no se conocía cuántas fueron desalojadas. Las autoridades dijeron que las revisiones no encontraron una amenaza concreta. <a href="https://apnews.com/article/0f312fda4ee2e9cdcebd0d6e1a40d9e8" rel="noopener">AP</a></p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/internacional/2026-11-11/evacuadas-alrededor-de-300-escuelas-de-italia-por-falsas-amenazas-de-bomba.html" rel="noopener">EL PAÍS</a></li><li><a class="chip" href="https://edatv.news/politica/alarma-italia-amenazas-bomba-obligan-evacuar-menos-300-colegios" rel="noopener">EDATV</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular atribuye la evacuación a las amenazas; la nota aclara que no se hallaron explosivos e incorpora declaraciones de autoridades italianas y el alcance en otros países.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">EDATV</span><p class="enfoque-frase">“Alarma” y “máxima alerta” elevan la sensación de riesgo; destaca el número de centros y la reunión de Meloni, con menos espacio para la evaluación oficial de que no había peligro concreto.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">6.300 escuelas receptoras</span>AP atribuye al Ministerio de Educación italiano que el correo llegó a más de 6.300 escuelas y señala que no se conocía el número exacto de evacuadas. Los “300” de las noticias se refieren a desalojos estimados, no a todos los mensajes enviados; la policía no encontró una amenaza concreta. <a href="https://apnews.com/article/0f312fda4ee2e9cdcebd0d6e1a40d9e8" rel="noopener">Associated Press</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="eeuu" aria-labelledby="t-eeuu"><div class="cabecera-sector"><span class="codigo">SECTOR 03</span><h2 id="t-eeuu">EE. UU.</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-05-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-05 · EE. UU.</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-05-titulo">Scott Colom gana en Misisipi y cambia el escaño al Senado</h3><div class="resumen"><p>El fiscal demócrata Scott Colom derrotó a la republicana Cindy Hyde-Smith después de más de una semana de recuento. <a href="https://elpais.com/us/2026-11-11/scott-colom-gana-en-misisipi-el-primer-democrata-que-manda-el-estado-al-senado-en-casi-cuatro-decadas.html" rel="noopener">EL PAÍS</a> informa que obtuvo 49,2 % frente a 48,7 % y será el primer demócrata elegido por Misisipi al Senado desde 1982, además del primer senador negro del Estado desde la Reconstrucción.</p><p><a href="https://www.foxnews.com/politics/dems-projected-score-historic-upset-deep-red-mississippi-topple-trump-ally-hyde-smith" rel="noopener">Fox News</a> enfoca la victoria como un vuelco republicano y el papel de Trump en la campaña; la agencia AP llamó la contienda para Colom tras las últimas actualizaciones de los condados.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/us/2026-11-11/scott-colom-gana-en-misisipi-el-primer-democrata-que-manda-el-estado-al-senado-en-casi-cuatro-decadas.html" rel="noopener">EL PAÍS</a></li><li><a class="chip" href="https://www.foxnews.com/politics/dems-projected-score-historic-upset-deep-red-mississippi-topple-trump-ally-hyde-smith" rel="noopener">Fox News</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular prioriza la ruptura histórica y la crónica añade representación racial, recuento y antecedentes de la candidatura; el encuadre es histórico más que programático.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li><li class="enfoque"><span class="enfoque-medio">Fox News</span><p class="enfoque-frase">“Historic upset”, “deep-red” y “Trump ally” presentan el resultado como derrota partidista; el artículo remarca el nuevo balance del Senado y cita el llamado de AP.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">49,2 % frente a 48,7 %</span>EL PAÍS publica 473.336 votos para Colom y 468.667 para Hyde-Smith; AP declaró ganador a Colom después de revisar actualizaciones de condados y papeletas provisionales. La certificación estatal no aparece en las piezas consultadas, así que se distingue el llamado de agencia del cierre administrativo. <a href="https://apnews.com/article/56c18f292a734443992f9466c3b0f346" rel="noopener">recuento y llamado de AP</a></blockquote></div></article><article class="expediente" aria-labelledby="tema-TR-0007-06-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-06 · EE. UU.</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-06-titulo">ACTUALIZACIÓN: Nvidia debate el futuro de Jensen Huang tras nuevas revelaciones</h3><div class="resumen"><p><a href="https://elpais.com/us/2026-11-11/la-revelacion-de-una-nueva-relacion-extramarital-del-consejero-delegado-de-nvidia-compromete-su-futuro-en-la-compania.html" rel="noopener">EL PAÍS</a> informa que la junta de Nvidia iba a reunirse para tratar el futuro de Jensen Huang después de nuevas revelaciones sobre su vida privada y una investigación de seguridad nacional. El artículo atribuye la posible búsqueda de sucesores a informaciones de prensa; Nvidia no había anunciado un relevo.</p><p>Associated Press señaló que las acciones bajaron un 8,6 % en las operaciones posteriores al cierre tras conocerse la reunión prevista. Esa variación es de mercado fuera de horario y no representa un cierre bursátil definitivo. <a href="https://apnews.com/article/8bf08407eafe1655ed73112f7494029a" rel="noopener">AP, 12 de noviembre</a></p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/us/2026-11-11/la-revelacion-de-una-nueva-relacion-extramarital-del-consejero-delegado-de-nvidia-compromete-su-futuro-en-la-compania.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular afirma que la empresa “ultima la sustitución”, pero el cuerpo describe una reunión pendiente y atribuye la búsqueda a WSJ y Bloomberg; no hay anuncio corporativo que confirme una decisión.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">−8,6 % en operaciones posteriores</span>AP reporta una caída de Nvidia del 8,6 % en operaciones posteriores al cierre, cuando trascendió que la junta trataría el caso. Es una cotización fuera de horario; no confirma una destitución ni un precio final de cierre. <a href="https://apnews.com/article/8bf08407eafe1655ed73112f7494029a" rel="noopener">reporte de mercados de AP</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="latinoamerica" aria-labelledby="t-latinoamerica"><div class="cabecera-sector"><span class="codigo">SECTOR 04</span><h2 id="t-latinoamerica">Venezuela y Latinoamérica</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-07-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-07 · Venezuela y Latinoamérica</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-07-titulo">ACTUALIZACIÓN: León XIV pide diplomacia y justicia en su primer discurso en Lima</h3><div class="resumen"><p>En su primer discurso en Perú, el papa León XIV pidió que las guerras se afronten con una diplomacia que respete el derecho internacional. También dijo que los sucesos del pasado deben tratarse con justicia y sensibilidad, una referencia que <a href="https://elpais.com/america/2026-11-12/leon-xiv-en-lima-las-guerras-reclaman-una-diplomacia-que-respete-el-derecho-internacional.html" rel="noopener">EL PAÍS</a> vincula con las heridas aún abiertas por violaciones de derechos humanos en el país. La nueva declaración amplía la cobertura previa de su llegada a Lima.</p><p>El artículo recuerda que víctimas de la violencia estatal le habían pedido ser escuchadas, pero no confirma una audiencia. <a href="https://www.vaticannews.va/en/pope/news/2026-11/pope-leo-arrives-in-peru-for-final-leg-of-apostolic-journey.html" rel="noopener">Vatican News</a> confirma la llegada y el programa oficial de seis días en Perú.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/america/2026-11-12/leon-xiv-en-lima-las-guerras-reclaman-una-diplomacia-que-respete-el-derecho-internacional.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El titular destaca la diplomacia internacional; el texto conecta las palabras del Papa con las violaciones de derechos humanos en Perú y da voz a familiares de víctimas. El encuadre es crítico, aunque distingue las declaraciones de los hechos judiciales.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">6 días en Perú</span>El medio oficial del Vaticano confirma la llegada el día 11 y la etapa peruana hasta el 16, con actos en Lima, Chiclayo, Cusco y Pucallpa. El itinerario público no confirma un encuentro con los grupos de víctimas mencionados por EL PAÍS. <a href="https://www.vaticannews.va/en/pope/news/2026-11/pope-leo-arrives-in-peru-for-final-leg-of-apostolic-journey.html" rel="noopener">programa y llegada</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="deportes" aria-labelledby="t-deportes"><div class="cabecera-sector"><span class="codigo">SECTOR 05</span><h2 id="t-deportes">Deportes</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-08-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-08 · Deportes</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-08-titulo">Barrenetxea será operado por una lesión severa en los isquiotibiales</h3><div class="resumen"><p>El extremo de la Real Sociedad sufrió una lesión tendinosa en el muslo derecho y deberá pasar por quirófano; <a href="https://as.com/futbol/primera/barrenetxea-sufre-una-lesion-severa-y-pasara-por-el-quirofano-f202611-n/?outputType=amp" rel="noopener">AS</a> confirma el parte del club. <a href="https://elpais.com/deportes/futbol/2026-11-11/barrenetxea-sera-operado-tras-lesionarse-de-los-isquios-y-puede-perderse-lo-que-queda-de-temporada.html" rel="noopener">EL PAÍS</a> indica que puede perderse el resto de la temporada, una previsión que aún no fija el parte médico.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://as.com/futbol/primera/barrenetxea-sufre-una-lesion-severa-y-pasara-por-el-quirofano-f202611-n/?outputType=amp" rel="noopener">AS</a></li><li><a class="chip" href="https://elpais.com/deportes/futbol/2026-11-11/barrenetxea-sera-operado-tras-lesionarse-de-los-isquios-y-puede-perderse-lo-que-queda-de-temporada.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">AS</span><p class="enfoque-frase">El titular resume el diagnóstico y la operación; reproduce el parte de la Real Sociedad y no especula sobre una fecha de regreso.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El condicional “puede perderse lo que queda” enfatiza el impacto deportivo y la baja con España; el cuerpo aclara que el club no ha precisado la recuperación.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Sin plazo oficial de baja</span>La información de EFE reproduce el diagnóstico de afectación tendinosa y la intervención prevista; el club no había publicado un plazo de recuperación. Perderse toda la temporada es una posibilidad periodística, no un pronóstico oficial. <a href="https://efe.com/deportes/ander-barrenetxea-lesion-quirofano/" rel="noopener">parte médico recogido por EFE</a></blockquote></div></article><article class="expediente" aria-labelledby="tema-TR-0007-09-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-09 · Deportes</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-09-titulo">Los Blackhawks respaldan a Jeff Blashill pese a un mal inicio</h3><div class="resumen"><p>El gerente general Kyle Davidson asumió la responsabilidad por el arranque de Chicago y mantuvo su respaldo al entrenador Jeff Blashill. <a href="https://www.foxsports.com/articles/nhl/blackhawks-gm-kyle-davidson-defends-coach-jeff-blashill-amid-the-teams-lackluster-start" rel="noopener">Fox Sports USA</a> reporta un registro de 4-13-1 y seis derrotas consecutivas; el equipo trabaja en mejorar su defensa antes de recibir a Buffalo.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://www.foxsports.com/articles/nhl/blackhawks-gm-kyle-davidson-defends-coach-jeff-blashill-amid-the-teams-lackluster-start" rel="noopener">Fox Sports USA</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Fox Sports USA</span><p class="enfoque-frase">“Lackluster start” califica el rendimiento; el despacho de AP centra la pieza en la respuesta del gerente y recoge su defensa del técnico junto a la mala racha.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">4-13-1; seis derrotas seguidas</span>NHL.com confirma el registro de Chicago, la racha de seis partidos sin ganar y una media de 4,22 goles recibidos por encuentro antes del partido del jueves. <a href="https://www.nhl.com/news/connor-bedard-says-blackhawks-have-100-percent-belief-in-jeff-blashill-as-coach" rel="noopener">estadísticas y declaraciones en NHL.com</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos"><div class="cabecera-sector"><span class="codigo">SECTOR 06</span><h2 id="t-espectaculos">Espectáculos</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-TR-0007-10-titulo"><div class="expediente-cabecera"><span>EXP. TR-0007-10 · Espectáculos</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-TR-0007-10-titulo">Ariana Grande y Ricky Álvarez debutan juntos en una alfombra roja</h3><div class="resumen"><p>Ariana Grande y Ricky Álvarez asistieron juntos al estreno neoyorquino de “Focker-in-Law” el 11 de noviembre, en su primera aparición oficial en una alfombra roja desde que retomaron su relación, según <a href="https://www.eonline.com/news/1438036/ariana-grande-ricky-alvarez-make-red-carpet-debut-at-focker-in-law" rel="noopener">E! News</a> y <a href="https://www.tmz.com/2026/11/11/ariana-grande-and-ricky-alvarez-make-red-carpet-debut/" rel="noopener">TMZ</a>. E! se detiene en la ropa y el historial de la pareja; TMZ lo relaciona con los compromisos promocionales previos al descanso público anunciado por la cantante.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://www.eonline.com/news/1438036/ariana-grande-ricky-alvarez-make-red-carpet-debut-at-focker-in-law" rel="noopener">E! News</a></li><li><a class="chip" href="https://www.tmz.com/2026/11/11/ariana-grande-and-ricky-alvarez-make-red-carpet-debut/" rel="noopener">TMZ</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">E! News</span><p class="enfoque-frase">El titular resalta el “debut” y la moda; la nota añade cronología sentimental y detalles de vestuario, con tono celebratorio y sin controversia.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li><li class="enfoque"><span class="enfoque-medio">TMZ</span><p class="enfoque-frase">“Hits the red carpet with BF” usa lenguaje coloquial y pone la relación por delante del estreno; suma contexto de compromisos promocionales y planes de pausa de la artista.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Sin cifra estadística</span>Las dos piezas describen la aparición conjunta en el estreno del 11 de noviembre. “Novios” y “relación retomada” son el encuadre de los medios; las fuentes no presentan un comunicado de representantes sobre el estado de la relación. <a href="https://www.eonline.com/news/1438036/ariana-grande-ricky-alvarez-make-red-carpet-debut-at-focker-in-law" rel="noopener">E! News</a> · <a href="https://www.tmz.com/2026/11/11/ariana-grande-and-ricky-alvarez-make-red-carpet-debut/" rel="noopener">TMZ</a></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="otros" aria-labelledby="t-otros"><div class="cabecera-sector"><span class="codigo">SECTOR 07</span><h2 id="t-otros">Otros</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Marca — portada bloqueada por robots.txt</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+<li>ESPN Deportes — verificación antirobot con JavaScript</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>12.11.26 06:55 h</strong><br>
+      Transmisión: <strong>TR-0007</strong> · Temas: <strong>10</strong> · Medios consultados: <strong>9 de 16</strong>
+    </p>
+
+    <a class="boton" href="index.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
