@@ -1,0 +1,1498 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ENTRANTE… CANAL SEGURO</p>
+    <p>&gt; BUSCANDO PORTADORA 4.7 GHz</p>
+    <p>&gt; DESCIFRANDO CABECERA TR-0010</p>
+    <p>&gt; VERIFICANDO FUENTES (12/16)</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE 10</strong></span>
+      <span>CLASIF. <strong>B-3</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>15.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0010</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>11</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>12</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">--:--</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión 07:00 h</span>
+      <span>12 de 16 fuentes consultadas</span>
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">14:18</span><span class="texto">Sánchez pidió el voto «europeísta» en el arranque de la campaña del 29-N.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">16:09</span><span class="texto">Zelenski dijo que Washington exploró el Donbás a cambio del ingreso de Ucrania en la OTAN.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">18:43</span><span class="texto">EE. UU. atribuyó el parón aéreo a un fallo durante un cambio de cableado de cobre a fibra.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">20:34</span><span class="texto">El puerto de Nueva Orleans reclamó control del petrolero tras el choque; sobrevivieron todos los ocupantes.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">22:32</span><span class="texto">La etapa superior de Starship volvió de órbita y fue capturada por la torre por primera vez.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espana" aria-labelledby="t-espana">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 01</span>
+    <h2 id="t-espana">España</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-01">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-01 · Parte diario</span>
+    <span class="sello sello--act">ACTUALIZACIÓN</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-01">La campaña del 29-N gira hacia el voto estratégico y la vivienda</h3>
+    <div class="resumen">
+      <p>En el primer fin de semana de campaña, Pedro Sánchez pidió en Mallorca el voto «europeísta» para frenar a Santiago Abascal y vinculó a Vox con dirigentes internacionales. Desde Galicia, Alberto Núñez Feijóo defendió su gestión y anunció que situaría Vivienda bajo una vicepresidencia; desde Almería, Abascal animó a los votantes que discrepen de Vox a apoyar al PP para desalojar a Sánchez.</p>
+      <p>Frente al informe anterior, centrado en sondeos distintos, la novedad son los mensajes de campaña de los tres candidatos: Sánchez apela a la orientación europea, Feijóo pone el foco en gestión y vivienda, y Abascal propone voto táctico. Son declaraciones de campaña; no una encuesta ni una medida aprobada.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://elpais.com/espana/elecciones-generales/2026-11-14/sanchez-pide-el-voto-europeista-para-frenar-a-abascal.html" rel="noopener">EL PAÍS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.libertaddigital.com/espana/politica/2026-11-14/feijoo-reivindica-la-gestion-frente-al-despilfarro-de-sanchez-y-arranca-en-galicia-su-camino-hacia-el-29-n-7491558/" rel="noopener">Libertad Digital · Feijóo</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.libertaddigital.com/espana/politica/2026-11-14/abascal-pide-el-voto-para-el-pp-a-quienes-discrepen-de-sus-propuestas-hay-que-echar-a-sanchez-7491571/" rel="noopener">Libertad Digital · Abascal</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">EL PAÍS</span>
+        <p class="enfoque-frase">El titular adopta la expresión «voto europeísta» de Sánchez y destaca sus críticas a los vínculos internacionales de Abascal. El enfoque sigue de cerca el argumento del mitin.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Libertad Digital · Galicia</span>
+        <p class="enfoque-frase">El titular contrapone gestión y «despilfarro» y resalta la propuesta de vivienda; el término controvertido aparece atribuido a Feijóo.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Libertad Digital · Almería</span>
+        <p class="enfoque-frase">La pieza abre con el llamamiento de Abascal a votar al PP si se discrepa de Vox y subraya su objetivo de desalojar a Sánchez.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Sin sondeo nuevo</span>
+      Las piezas describen actos y declaraciones del sábado. No aportan una medición electoral nueva que permita actualizar las estimaciones de la víspera.
+      <span class="dato-fuente">Contraste: no se presenta una cifra nueva en las piezas consultadas.</span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="internacional" aria-labelledby="t-internacional">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 02</span>
+    <h2 id="t-internacional">Internacional</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-02">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-02 · Parte diario</span>
+    <span class="sello sello--act">ACTUALIZACIÓN</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-02">Zelenski dice que Washington exploró Donbás a cambio de entrar en la OTAN</h3>
+    <div class="resumen">
+      <p>Volodímir Zelenski afirmó que negociadores estadounidenses preguntaron si Ucrania se retiraría de las partes del Donbás que aún controla a cambio de ingresar en la OTAN. El presidente ucranio dijo que no aceptaría ceder territorio por su cuenta y que sometería a consulta pública cualquier paquete concreto con garantías de seguridad, fuerzas armadas sólidas y fondos para la reconstrucción.</p>
+      <p>La novedad respecto a la cobertura anterior sobre la entrada europea en las negociaciones es que aparece un posible canje territorial dentro de las conversaciones. Washington no ha confirmado una oferta formal y no hay acuerdo: la información sobre la pregunta procede del relato de Zelenski tras la ronda de Abu Dabi.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://elpais.com/internacional/2026-11-14/zelenski-asegura-que-ee-uu-sugiere-admitir-a-ucrania-en-la-otan-a-cambio-de-entregar-el-donbas-a-rusia.html" rel="noopener">EL PAÍS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.bbc.com/mundo/articles/cm70244lv8e1o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://apnews.com/article/russia-ukraine-war-nato-us-zelenskyy-f9a8629626c087424f05adc85d127780" rel="noopener">Associated Press</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">EL PAÍS</span>
+        <p class="enfoque-frase">Atribuye el planteamiento a Zelenski y distingue entre la pregunta de los mediadores y una propuesta concreta; el subtítulo recoge sus condiciones.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">BBC Mundo</span>
+        <p class="enfoque-frase">Resume el intercambio territorial y conserva la atribución al presidente ucranio en el titular.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Associated Press</span>
+        <p class="enfoque-frase">Presenta el episodio dentro de un marco de seguridad europeo más amplio y precisa que Zelenski dijo que Kyiv no renunciaría al territorio.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">No hay oferta pública</span>
+      AP recoge el mismo relato y detalla las condiciones que Zelenski exigiría. No se ha publicado un documento estadounidense que confirme una oferta de adhesión a la OTAN por territorio.
+      <span class="dato-fuente">Fuente: <a href="https://apnews.com/article/russia-ukraine-war-nato-us-zelenskyy-f9a8629626c087424f05adc85d127780" rel="noopener">Associated Press, declaraciones de Zelenski</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="eeuu" aria-labelledby="t-eeuu">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 03</span>
+    <h2 id="t-eeuu">EE. UU.</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-03">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-03 · Parte diario</span>
+    <span class="sello sello--act">ACTUALIZACIÓN</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-03">EE. UU. atribuye el parón aéreo a un fallo durante el cambio de cableado</h3>
+    <div class="resumen">
+      <p>El secretario de Transporte, Sean Duffy, atribuyó el parón nacional del 13 de noviembre a una sobrecarga surgida mientras un contratista sustituía una sección de cable de cobre por fibra óptica. El fallo produjo cortes intermitentes de comunicaciones y radar; la FAA levantó la orden de parada, pero los retrasos y cancelaciones continuaron durante el sábado.</p>
+      <p>Duffy dijo que el sistema recibió más de 1.000 intentos de conexión cada cuatro o cinco segundos; AP informó de inestabilidad en hasta 17 de los 22 centros regionales. La causa inmediata de la sobrecarga sigue bajo investigación y las autoridades descartaron indicios de ciberataque. Es el dato nuevo respecto al informe anterior, que solo confirmaba la reanudación de vuelos.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://elpais.com/us/2026-11-14/washington-atribuye-el-paron-aereo-a-un-problema-con-un-nuevo-cableado-de-fibra-optica.html" rel="noopener">EL PAÍS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.bbc.com/mundo/articles/c5n4e274kdlro?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.abc.es/internacional/cables-cobre-disquetes-prismaticos-atraso-detras-caos-20261115020546-nt.html" rel="noopener">ABC</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.foxnews.com/live-news/faa-issues-nationwide-ground-stop-cites-communications-issue" rel="noopener">Fox News</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://apnews.com/article/ground-stop-air-traffic-control-0a71f6d3b52f9087105ebea7c527bdd7" rel="noopener">Associated Press</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">EL PAÍS</span>
+        <p class="enfoque-frase">Atribuye el incidente a los responsables de aviación y destaca que descartaron un ciberataque; el titular identifica la intervención en el cableado.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">BBC Mundo</span>
+        <p class="enfoque-frase">Enmarca la avería como consecuencia de tecnología antigua y subraya la dimensión nacional con una comparación histórica en el titular.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">ABC</span>
+        <p class="enfoque-frase">El titular enumera cables, disquetes y prismáticos para representar un sistema anticuado; privilegia la imagen de obsolescencia.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Fox News</span>
+        <p class="enfoque-frase">La cobertura en directo pone primero el levantamiento de la parada y los retrasos para los pasajeros; su actualización precede a la explicación técnica completa.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Associated Press</span>
+        <p class="enfoque-frase">Recoge la explicación oficial, aporta el alcance en centros de control y deja explícita la investigación pendiente sobre el mecanismo exacto.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Hasta 17 de 22 centros</span>
+      AP recoge que la inestabilidad alcanzó hasta 17 de los 22 centros regionales y cita a Duffy sobre las conexiones repetidas; la FAA mantiene su primer comunicado como preliminar.
+      <span class="dato-fuente">Fuente: <a href="https://apnews.com/article/ground-stop-air-traffic-control-0a71f6d3b52f9087105ebea7c527bdd7" rel="noopener">Associated Press y comunicado preliminar de la FAA</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-04">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-04 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-04">Nueva Orleans demanda el control del petrolero tras el choque con un crucero</h3>
+    <div class="resumen">
+      <p>El petrolero Atlantic Asphalt chocó el viernes con el crucero fluvial American Heritage, que volcó en el Mississippi. Las 197 personas a bordo sobrevivieron; 32 fueron trasladadas al hospital y ocho seguían ingresadas el sábado, sin lesiones críticas, según las autoridades citadas por AP.</p>
+      <p>El Puerto de Nueva Orleans demandó para que los investigadores federales puedan retener el petrolero y reclama al menos un millón de dólares por daños en la terminal. La NTSB recuperó la grabadora de datos del buque, pero la causa del choque no está establecida; la retirada del crucero volcado puede tardar semanas.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.foxnews.com/us/100-people-pulled-mississippi-river-new-orleans-ship-crash-salvage-effort" rel="noopener">Fox News</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.tmz.com/2026/11/14/port-of-new-orleans-sues-tanker-cruise-ship-crash/" rel="noopener">TMZ</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://apnews.com/article/new-orleans-cruise-ship-tanker-crash-0c1cbee9c9b3f3103d84b8bb17b5073f" rel="noopener">Associated Press</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Fox News</span>
+        <p class="enfoque-frase">El titular prioriza el rescate de unas cien personas del río y el tiempo que puede llevar el salvamento del barco.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">TMZ</span>
+        <p class="enfoque-frase">Lleva al titular la demanda del puerto contra el petrolero y sus dueños; enfoca el desarrollo judicial posterior al choque.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Associated Press</span>
+        <p class="enfoque-frase">Combina el balance de supervivientes, la demanda y el trabajo de la NTSB, y advierte que el origen de la pérdida de gobierno aún se desconoce.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">32 personas atendidas</span>
+      AP informa de 197 pasajeros y tripulantes supervivientes, 32 traslados al hospital y ocho ingresos el sábado. El millón de dólares es la reclamación del puerto, no una indemnización fijada.
+      <span class="dato-fuente">Fuente: <a href="https://apnews.com/article/new-orleans-cruise-ship-tanker-crash-0c1cbee9c9b3f3103d84b8bb17b5073f" rel="noopener">Associated Press, datos atribuidos a autoridades y demanda</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="latam" aria-labelledby="t-latam">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 04</span>
+    <h2 id="t-latam">Venezuela y Latinoamérica</h2>
+  </div>
+  <div class="lista-temas">
+<p class="vacio">Sin temas de alta prioridad en esta transmisión.</p>
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="deportes" aria-labelledby="t-deportes">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 05</span>
+    <h2 id="t-deportes">Deportes</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-06">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-06 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-06">Dinamarca vence 4-1 a Portugal y mantiene abierta la lucha del grupo</h3>
+    <div class="resumen">
+      <p>Dinamarca ganó 4-1 en Braga: Højbjerg abrió de penalti, Rasmus Højlund marcó dos veces y Joachim Andersen hizo el cuarto; Bernardo Silva descontó. La victoria mantiene a Dinamarca en la pelea por avanzar, mientras Portugal ya tenía asegurada su plaza en los cuartos de final.</p>
+      <p>AS convierte el homenaje a Cristiano Ronaldo, ausente, en el eje emocional de su crónica y califica la actuación portuguesa con términos muy duros. Líder en Deportes se limita al resultado y a la goleada; UEFA confirma marcador y situación competitiva.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://as.com/futbol/internacional/cristiano-no-merecia-esto-f202611-n/" rel="noopener">AS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.liderendeportes.com/futbol/dinamarca-golea-a-portugal-en-la-liga-de-naciones/" rel="noopener">Líder en Deportes</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.uefa.com/uefanationsleague/news/02ab-220e66a3c090-9304054ed1ca-1000--uefa-nations-league-matchday-5-highlights-round-up-denmar/" rel="noopener">UEFA</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">AS</span>
+        <p class="enfoque-frase">La pieza titula «Cristiano no merecía esto» y utiliza expresiones como «hizo el ridículo» y «bochorno»; el tono es claramente valorativo.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="marcado">MARCADO</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Líder en Deportes</span>
+        <p class="enfoque-frase">Resume la victoria como goleada y destaca el resultado, sin convertir el homenaje a Cristiano en el centro del relato.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">UEFA</span>
+        <p class="enfoque-frase">El resumen oficial organiza la jornada por marcadores, clasificaciones y goleadores, con tono de competición.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Portugal 1-4 Dinamarca</span>
+      UEFA confirma el 4-1. También indica que Portugal ya estaba clasificado para cuartos y que Dinamarca seguía con opciones; la crónica de AS habla del liderato, no de una plaza de cuartos en juego.
+      <span class="dato-fuente">Fuente: <a href="https://www.uefa.com/uefanationsleague/news/02ab-220e66a3c090-9304054ed1ca-1000--uefa-nations-league-matchday-5-highlights-round-up-denmar/" rel="noopener">UEFA Nations League, jornada 5</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-07">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-07 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-07">Japón derrota 3-2 a Brasil con un gol en el descuento</h3>
+    <div class="resumen">
+      <p>Japón remontó ante Brasil en Singapur: Takefusa Kubo y Keito Nakamura adelantaron a los locales, Vinícius Júnior marcó dos veces y Tatsuhiro Sakamoto decidió en el minuto 90+1. Carlo Ancelotti y Raphinha fueron expulsados tras protestar al final.</p>
+      <p>AS pone el foco en el doblete de Vinícius y su actuación pese a la derrota; Líder en Deportes presenta el resultado como otra señal de que Brasil no encuentra el rumbo con Ancelotti. El acta de la J.League confirma el marcador y la secuencia de goles.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://as.com/futbol/internacional/aviso-de-vini-a-los-incredulos-f202611-n/" rel="noopener">AS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.liderendeportes.com/futbol/internacional-football/brasil-cayo-ante-japon-y-sigue-sin-encontrar-el-camino/" rel="noopener">Líder en Deportes</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.jleague.jp/match/friendly/2026/111414/" rel="noopener">J.League</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">AS</span>
+        <p class="enfoque-frase">El titular «Aviso de Vini a los incrédulos» y el texto elogioso sobre el jugador desplazan el foco de la derrota colectiva hacia Vinícius.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Líder en Deportes</span>
+        <p class="enfoque-frase">El titular extiende una derrota amistosa a una lectura sobre el rumbo general de Brasil con Ancelotti.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">J.League</span>
+        <p class="enfoque-frase">El acta oficial ofrece resultado, goles y minutos, sin añadir una interpretación editorial.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Japón 3-2 Brasil</span>
+      El acta oficial de la J.League confirma el 3-2 y los cinco goles, incluido el tanto de Sakamoto en el 90+1.
+      <span class="dato-fuente">Fuente: <a href="https://www.jleague.jp/match/friendly/2026/111414/" rel="noopener">J.League, ficha oficial del partido</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-08">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-08 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-08">Estados Unidos golea 6-0 a Haití en la ida de cuartos</h3>
+    <div class="resumen">
+      <p>Estados Unidos venció 6-0 a Haití en la ida de los cuartos de final de la Liga de Naciones de Concacaf. Marcó cinco goles en la segunda parte; Christian Pulisic firmó un doblete en poco más de un minuto y el equipo afronta la vuelta con seis goles de ventaja.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.foxsports.com/stories/soccer/usa-haiti-nations-league-pochettino-man-united-takeaways" rel="noopener">Fox Sports USA</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.ussoccer.com/stories/2026/11/usmnt-vs-haiti-match-recap-highlights-concacaf-nations-league-miami-florida" rel="noopener">U.S. Soccer</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Fox Sports USA</span>
+        <p class="enfoque-frase">El titular ofrece cinco claves y vincula el partido con la noticia del próximo movimiento de Mauricio Pochettino.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">U.S. Soccer</span>
+        <p class="enfoque-frase">El parte oficial detalla los seis goleadores, la secuencia de los tantos y el partido de vuelta.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">6-0 · cinco goles en la segunda parte</span>
+      U.S. Soccer confirma el marcador, el doblete de Pulisic y que fue la primera manga de la eliminatoria; la vuelta está prevista para el 17 de noviembre.
+      <span class="dato-fuente">Fuente: <a href="https://www.ussoccer.com/stories/2026/11/usmnt-vs-haiti-match-recap-highlights-concacaf-nations-league-miami-florida" rel="noopener">U.S. Soccer, parte oficial del partido</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-09">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-09 · Parte diario</span>
+    <span class="sello sello--act">ACTUALIZACIÓN</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-09">España recibe hoy a Inglaterra con el liderato del grupo en juego</h3>
+    <div class="resumen">
+      <p>La previa de AS informa de que Lamine Yamal y Mikel Oyarzabal vuelven a estar disponibles, mientras Aymeric Laporte y Nico Williams mejoran antes del partido de este domingo. España llega con tres puntos de ventaja sobre Inglaterra y un empate le basta para conservar el primer puesto.</p>
+      <p>El encuentro aún no se había disputado al cierre de este informe. La pieza de AS presenta la cita como una final y utiliza metáforas de rearme e invencibilidad; UEFA confirma que el partido corresponde a la última jornada del grupo.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://as.com/futbol/seleccion/rearme-ante-inglaterra-f202611-n/" rel="noopener">AS</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://es.uefa.com/uefanationsleague/news/02a2-1fea1edbc9a9-78c6728d4928-1000--uefa-nations-league-2026-27-partidos-calendario-y-result/" rel="noopener">UEFA</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">AS</span>
+        <p class="enfoque-frase">La previa usa «rearme», «Armada Invencible» y una racha de imbatibilidad para presentar el partido con tono épico; también enumera regresos y opciones de alineación.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">UEFA</span>
+        <p class="enfoque-frase">El calendario oficial sitúa el España-Inglaterra en la jornada del 15 de noviembre y sirve como contraste de fecha, sin anticipar el resultado.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Partido aún pendiente</span>
+      El calendario oficial confirma la fecha del 15 de noviembre. A las 06:43 h de Madrid no había resultado: se trata de una previa, no de una crónica.
+      <span class="dato-fuente">Fuente: <a href="https://es.uefa.com/uefanationsleague/news/02a2-1fea1edbc9a9-78c6728d4928-1000--uefa-nations-league-2026-27-partidos-calendario-y-result/" rel="noopener">UEFA Nations League, calendario oficial</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 06</span>
+    <h2 id="t-espectaculos">Espectáculos</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-10">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-10 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-10">Olivia Wilde habla de un equilibrio saludable al criar con Jason Sudeikis</h3>
+    <div class="resumen">
+      <p>En una entrevista difundida por The New York Times, Olivia Wilde dijo que ella y Jason Sudeikis han alcanzado un equilibrio saludable al criar a sus hijos. Añadió que la coparentalidad sigue siendo difícil y que procuran hablar con honestidad con ellos; es el relato personal de Wilde, no una evaluación externa de la familia.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.eonline.com/news/1438129/olivia-wilde-details-pride-of-jason-sudeikis-coparenting-dynamic" rel="noopener">E! News</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.tmz.com/2026/11/14/olivia-wilde-rare-comments-co-parenting-jason-sudeikis/" rel="noopener">TMZ</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">E! News</span>
+        <p class="enfoque-frase">El titular destaca el orgullo de Wilde por la coparentalidad y el artículo amplía el contexto familiar con citas de la entrevista.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">TMZ</span>
+        <p class="enfoque-frase">La pieza se anuncia como comentarios poco frecuentes sobre su relación de coparentalidad con Sudeikis; mantiene el foco en la pareja conocida.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Declaración personal</span>
+      No hay una cifra independiente que contrastar. La información procede de la entrevista de Wilde en el pódcast The Interview del New York Times.
+      <span class="dato-fuente">Fuente: <a href="https://www.eonline.com/news/1438129/olivia-wilde-details-pride-of-jason-sudeikis-coparenting-dynamic" rel="noopener">E! News, entrevista citada</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-11">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-11 · Parte diario</span>
+    <span class="sello sello--act">ACTUALIZACIÓN</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-11">Una denunciante de Russell Brand revela su identidad; la investigación sigue abierta</h3>
+    <div class="resumen">
+      <p>Mia Latter, de 37 años, hizo pública su identidad y alegó que Russell Brand la violó cuando ella tenía 16. Según ITV, la denuncia fue comunicada a la Policía Metropolitana en enero de 2026; la mujer decidió no continuar personalmente con el proceso penal, pero la investigación policial sigue abierta.</p>
+      <p>El caso no formó parte del juicio por el que Brand fue condenado a diez años y medio por una violación y tres agresiones sexuales contra otras mujeres. Latter pide cambios legales sobre las relaciones entre adultos y adolescentes; la nueva acusación no tiene una resolución judicial.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.tmz.com/people/russell-brand/" rel="noopener">TMZ</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.itv.com/news/2026-11-14/woman-who-alleges-she-was-raped-by-russell-brand-waives-her-anonymity" rel="noopener">ITV News</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">TMZ</span>
+        <p class="enfoque-frase">El titular prioriza que una denunciante revela su identidad y la edad que tenía; mantiene el encuadre de noticia de celebridad y usa la atribución de alegación.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">ITV News</span>
+        <p class="enfoque-frase">El titular pone primero la renuncia al anonimato y la cobertura desarrolla tanto la campaña legal como la situación de la investigación policial.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">Denuncia no juzgada</span>
+      ITV atribuye a la Policía Metropolitana que la investigación continúa y que faltaba información para decidir sobre cargos. La denuncia de Latter no fue parte de la condena previa de Brand.
+      <span class="dato-fuente">Fuente: <a href="https://www.itv.com/news/2026-11-14/woman-who-alleges-she-was-raped-by-russell-brand-waives-her-anonymity" rel="noopener">ITV News, declaración policial y situación procesal</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="otros" aria-labelledby="t-otros">
+  <div class="cabecera-sector">
+    <span class="codigo">SECTOR 07</span>
+    <h2 id="t-otros">Otros</h2>
+  </div>
+  <div class="lista-temas">
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-tr0010-05">
+  <div class="expediente-cabecera">
+    <span>EXP. TR-0010-05 · Parte diario</span>
+    <span class="sello">NUEVO</span>
+  </div>
+  <div class="expediente-cuerpo">
+    <h3 id="tema-tr0010-05">Starship completa su primer regreso orbital capturado por la torre</h3>
+    <div class="resumen">
+      <p>Tras más de 22 horas de vuelo, la etapa superior de Starship volvió a Starbase y fue atrapada por los brazos de la torre por primera vez al regresar de una misión orbital. Completó 14 vueltas a la Tierra y desplegó 26 satélites Starlink.</p>
+      <p>La prueba no consiguió recuperar ambos componentes: el propulsor Super Heavy falló durante el regreso y cayó en el golfo de México; SpaceX investiga la causa. La captura de la nave es un avance hacia la reutilización completa, pero no demuestra todavía una recuperación integral del cohete.</p>
+    </div>
+    <p class="etiqueta-bloque">Lo cubren</p>
+    <ul class="chips">
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://www.bbc.com/mundo/articles/cq4gnx86l5m2o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li>
+      <!-- FIN CHIP MEDIO -->
+      <!-- INICIO CHIP MEDIO -->
+      <li><a class="chip" href="https://apnews.com/article/spacex-elon-musk-starship-rocket-df394c1b5a0f85e11194f9ff7db9ee6b" rel="noopener">Associated Press</a></li>
+      <!-- FIN CHIP MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Enfoque por medio</p>
+    <ul class="enfoques">
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">BBC Mundo</span>
+        <p class="enfoque-frase">El titular subraya que la captura de la etapa superior es inédita y centra la atención en el regreso a la Tierra.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+      <!-- INICIO ENFOQUE MEDIO -->
+      <li class="enfoque">
+        <span class="enfoque-medio">Associated Press</span>
+        <p class="enfoque-frase">Describe el momento con lenguaje espectacular, pero separa el éxito de la nave del fallo del propulsor y de la meta de doble captura.</p>
+        <div class="medidor-fila">
+          <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+          <span class="nivel" data-nivel="leve">LEVE</span>
+        </div>
+      </li>
+      <!-- FIN ENFOQUE MEDIO -->
+    </ul>
+    <p class="etiqueta-bloque">Contraste de datos</p>
+    <!-- INICIO CONTRASTE DATO -->
+    <blockquote class="dato">
+      <span class="dato-cifra">14 órbitas · 26 satélites</span>
+      AP informa de 14 vueltas en unas 22 horas, el despliegue de 26 satélites y el fallo del propulsor; la empresa sigue investigando esa parte de la prueba.
+      <span class="dato-fuente">Fuente: <a href="https://apnews.com/article/spacex-elon-musk-starship-rocket-df394c1b5a0f85e11194f9ff7db9ee6b" rel="noopener">Associated Press, seguimiento de la prueba</a></span>
+    </blockquote>
+    <!-- FIN CONTRASTE DATO -->
+  </div>
+</article>
+<!-- FIN TARJETA TEMA -->
+  </div>
+</section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+            <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>ESPN Deportes — HTTP 202 y verificación antirobot en dos intentos.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>El Mundo — la portada cargó módulos de juegos, sin titulares actuales verificables.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>CNN — el RSS devolvió error TLS en dos intentos.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>Fox Sports México — la portada no respondió en dos intentos.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>15.11.26 06:43 h</strong><br>
+      Transmisión: <strong>TR-0010</strong> · Temas: <strong>11</strong> · Medios consultados: <strong>12 de 16</strong>
+    </p>
+
+    <a class="boton" href="index.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
