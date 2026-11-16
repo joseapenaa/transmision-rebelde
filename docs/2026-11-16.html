@@ -1,0 +1,1486 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ACTIVO… CANAL SEGURO</p>
+    <p>&gt; TR-0011 // VENTANA DE LAS ÚLTIMAS 24 H</p>
+    <p>&gt; FUENTES 1/2 // EL PAÍS · BBC MUNDO · FOX NEWS · LÍDER · ABC · AS</p>
+    <p>&gt; FUENTES 2/2 // LIBERTAD DIGITAL · EDATV · TMZ · E! NEWS · FOX SPORTS USA</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE TR-0011</strong></span>
+      <span>CLASIF. <strong>PÚBLICA</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>16.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0011</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>13</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>11 de 16</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">06:55</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión 07:00 h · Europe/Madrid</span>
+      <span>Generado 06:58 h</span>
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">15/11 23:19</span><span class="texto">Inglaterra ganó 3–2 a España y se quedó con el primer puesto del grupo A3.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">15/11 20:30</span><span class="texto">El PSOE incorporó al programa del 29-N el 1% del PIB para vivienda pública y una prestación por crianza.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">16/11 03:13</span><span class="texto">Venezuela se coronó en el Mundial de béisbol Sub-23 con su segundo título.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">15/11 16:12</span><span class="texto">Un tren de mercancías descarriló en Zarzalejo y cortó la línea convencional Madrid–Ávila.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">15/11 20:16</span><span class="texto">Zelenski pidió a Washington y a Elon Musk que restauren el acceso pleno a la conectividad satelital.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="espana" aria-labelledby="t-espana">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 01</span>
+      <h2 id="t-espana">España</h2>
+    </div>
+
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-01-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-01 · Clasif. abierta</span>
+          <span class="sello sello--act">ACTUALIZACIÓN</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-01-titulo">El PSOE promete destinar el 1% del PIB a vivienda pública</h3>
+          <div class="resumen">
+            <p>El País recoge que el programa del PSOE para el 29-N incorpora una prestación estatal por crianza y dedicar anualmente el 1% del PIB a vivienda pública. También plantea un gravamen a fondos de inversión y grandes propietarios, y elevar la generación renovable al 81% en 2030.</p>
+            <p>El cambio de campaña es que Sánchez adopta compromisos que, según El País, habían quedado sin recorrido en el Gobierno y que defendía Sumar. Libertad Digital reúne las medidas bajo el rótulo de «catálogo de anuncios» y destaca su componente tributario. Las dos crónicas no detallan el coste completo ni el calendario de aplicación.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/espana/elecciones-generales/2026-11-15/el-psoe-propone-destinar-el-1-del-pib-a-vivienda-social-y-crear-una-prestacion-estatal-por-crianza.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.libertaddigital.com/espana/politica/2026-11-15/permisos-por-amistad-mas-impuestos-a-la-vivienda-y-blindaje-del-aborto-el-nuevo-catalogo-de-anuncios-de-sanchez-7491705/" rel="noopener">Libertad Digital</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">Titula con las propuestas concretas y las atribuye al programa electoral; explica sus objetivos y el contexto de la negociación con Sumar, sin presentar el gasto como ya aprobado.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Libertad Digital</span>
+              <p class="enfoque-frase">El titular habla de «catálogo de anuncios» y selecciona las medidas fiscales y sociales para cuestionar su naturaleza de promesas de campaña; ese léxico aporta un matiz crítico.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">1 % del PIB</span>
+            El INE sitúa el PIB nominal de 2025 en 1.690.012 millones de euros. Como escala, el 1% equivale a unos 16.900 millones anuales; es un cálculo sobre el dato oficial, no una partida presupuestaria ya aprobada.
+            <span class="dato-fuente">Contraste: <a href="https://www.ine.es/dyngs/INEbase/operacion.htm?c=Estadistica_C&amp;cid=1254736177057&amp;idp=1254735576581&amp;menu=ultiDatos" rel="noopener">INE · Contabilidad nacional 2025</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-02-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-02 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-02-titulo">Un tren de mercancías descarrila en Zarzalejo y corta la línea Madrid–Ávila</h3>
+          <div class="resumen">
+            <p>El País informa de que un tren de mercancías descarriló entre Zarzalejo y Robledo de Chavela tras la caída de rocas desde un talud. El maquinista sufrió heridas leves y Adif interrumpió la circulación convencional entre Madrid y Ávila, con transporte alternativo por carretera.</p>
+            <p>El diario recoge la falta de mantenimiento del entorno como una hipótesis de fuentes consultadas, no como una causa oficial cerrada. También informa de que el Gobierno pondría en marcha hoy una comisión independiente sobre seguridad ferroviaria, con recomendaciones previstas en unos dos meses.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/economia/2026-11-15/descarrila-un-tren-de-mercancias-en-madrid-por-el-desprendimiento-de-un-talud.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">El titular vincula el descarrilamiento con el desprendimiento del talud; la crónica da prioridad al estado del maquinista y al corte de la línea, y atribuye con cautela la hipótesis de mantenimiento.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">CAUSA ABIERTA</span>
+            Adif confirmó la interrupción entre Zarzalejo y Robledo de Chavela y el servicio alternativo. El aviso de la infraestructura no atribuye una causa; la hipótesis de mantenimiento procede de fuentes citadas por El País.
+            <span class="dato-fuente">Contraste: <a href="https://www.adif.es/w/10208-navalperal" rel="noopener">Adif · Estado de la red y estación</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-03-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-03 · Clasif. abierta</span>
+          <span class="sello sello--act">ACTUALIZACIÓN</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-03-titulo">AEMET prevé nuevos frentes con lluvia, nieve y viento en varias zonas</h3>
+          <div class="resumen">
+            <p>ABC adelanta que varios frentes atlánticos prolongarán el tiempo inestable durante la semana, con lluvias más abundantes en el noroeste y episodios de nieve y viento en zonas expuestas. La noticia atribuye el pronóstico a AEMET.</p>
+            <p>Es una actualización de la sucesión de borrascas de la semana pasada: el pronóstico describe riesgos previstos, no daños ya producidos ni avisos uniformes para todo el país.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.abc.es/sociedad/aemet-pone-aviso-espana-nuevas-borrascas-atlanticas-20261116053000-nt.html" rel="noopener">ABC</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">ABC</span>
+              <p class="enfoque-frase">El titular usa «pone en aviso» y enumera varios fenómenos para transmitir urgencia; el texto atribuye el pronóstico a AEMET, aunque la formulación agrupa riesgos regionales distintos.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">PRONÓSTICO</span>
+            AEMET prevé en la costa de Galicia viento del sur o suroeste de fuerza 7 y mar combinada de 4 a 5 metros en sectores de A Coruña. Ese parte confirma riesgo marítimo localizado, no todas las zonas mencionadas en el titular.
+            <span class="dato-fuente">Contraste: <a href="https://www.aemet.es/es/eltiempo/prediccion/maritima?area=gal1&amp;img=6&amp;opc1=0&amp;opc2=martot&amp;opc3=0" rel="noopener">AEMET · Predicción marítima de Galicia</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="internacional" aria-labelledby="t-internacional">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 02</span>
+      <h2 id="t-internacional">Internacional</h2>
+    </div>
+
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-04-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-04 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-04-titulo">Zelenski pide restablecer el acceso pleno a la conectividad satelital</h3>
+          <div class="resumen">
+            <p>BBC Mundo informa de que Volodímir Zelenski pidió a Estados Unidos y a Elon Musk que restauren el acceso pleno a los servicios satelitales que usa Ucrania. El presidente ucraniano sostiene que las limitaciones están perjudicando la defensa frente a los ataques rusos.</p>
+            <p>La BBC habla de Starlink; Associated Press y una carta bipartidista del Senado estadounidense identifican específicamente restricciones al sistema militar Starshield. Las fuentes revisadas recogen el reclamo de Kyiv, pero no un anuncio de restablecimiento ni una respuesta técnica concluyente de SpaceX.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.bbc.com/mundo/articles/cr930qe3pwx3o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">BBC Mundo</span>
+              <p class="enfoque-frase">El titular atribuye a Zelenski la petición a Washington y Musk; la pieza presenta el impacto operativo desde la perspectiva ucraniana y no confirma por sí sola una decisión de la empresa.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">SIN RESTABLECIMIENTO</span>
+            AP también recoge la preocupación ucraniana por Starshield antes del invierno. Una carta del Comité de Relaciones Exteriores del Senado cita reportes de Kyiv sobre interrupciones; ninguna de estas fuentes acredita que el servicio ya haya sido normalizado.
+            <span class="dato-fuente">Contraste: <a href="https://www.foreign.senate.gov/imo/media/doc/11132026%20Letter%20to%20Elon%20Musk%20and%20SpaceX%20on%20Starshield%20and%20Starlink.pdf" rel="noopener">Senado de EE. UU. · Carta sobre Starshield</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-05-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-05 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-05-titulo">Migrantes latinoamericanos relatan el avance de la ultraderecha en Alemania</h3>
+          <div class="resumen">
+            <p>BBC Mundo recoge testimonios de migrantes latinoamericanos que describen experiencias de discriminación y temor ante el crecimiento de la ultraderecha en Alemania. La pieza sigue cómo ese clima afecta sus decisiones y su vida cotidiana.</p>
+            <p>Es un reportaje basado en voces individuales. No mide cuántas personas migrantes comparten esas experiencias ni permite extrapolarlas a toda la población latinoamericana en Alemania.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.bbc.com/mundo/articles/c95yn80g6l72o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">BBC Mundo</span>
+              <p class="enfoque-frase">La BBC centra el enfoque en relatos personales y en el impacto de la política sobre la vida diaria; esa selección aporta profundidad humana, pero no ofrece una muestra representativa.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">REPORTAJE</span>
+            La pieza es cualitativa y no presenta una encuesta de población ni una cifra de prevalencia. Los testimonios describen experiencias concretas, no una medición general del país.
+            <span class="dato-fuente">Contraste: <a href="https://www.bbc.com/mundo/articles/c95yn80g6l72o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo · Reportaje y testimonios</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="eeuu" aria-labelledby="t-eeuu">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 03</span>
+      <h2 id="t-eeuu">EE. UU.</h2>
+    </div>
+
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-06-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-06 · Clasif. abierta</span>
+          <span class="sello sello--act">ACTUALIZACIÓN</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-06-titulo">Trump culpa a Biden del parón aéreo mientras sigue la investigación técnica</h3>
+          <div class="resumen">
+            <p>El País informa de que Donald Trump responsabilizó a la Administración Biden por los problemas del sistema de control aéreo y pidió al Congreso fondos para modernizarlo. Su declaración llegó después de que la FAA anunciara el regreso gradual a la normalidad.</p>
+            <p>Fox News señala que los investigadores examinaban dos routers y que el secretario de Transporte no veía indicios de un ciberataque extranjero. TMZ enfoca el episodio como un cruce de acusaciones entre Trump y Sean Duffy. La FAA, por su parte, explicó que su proveedor instalaba un router nuevo y que el parón se ordenó por precaución; no hay una conclusión que atribuya el fallo a Biden.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/us/2026-11-15/trump-rompe-37-horas-de-inusual-silencio-para-culpar-del-paron-aeronautico-al-gobierno-de-biden.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.foxnews.com/us/duffy-investigators-examining-2-routers-nationwide-faa-ground-stop-no-signs-foreign-cyberattack" rel="noopener">Fox News</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.tmz.com/2026/11/15/donald-trump-blames-joe-biden-for-faa-ground-stop/" rel="noopener">TMZ</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">El titular pone el foco en el tiempo que tardó Trump en pronunciarse y en su acusación a Biden; la crónica contrasta esa declaración con el problema técnico descrito por funcionarios.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Fox News</span>
+              <p class="enfoque-frase">El titular prioriza la investigación de los routers y la ausencia de indicios de ciberataque, con una lectura más técnica; atribuye la información a Duffy.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">TMZ</span>
+              <p class="enfoque-frase">El titular enfrenta la acusación de Trump con la explicación de Duffy en un formato de conflicto personal y político; el encuadre es más llamativo que técnico.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">INVESTIGACIÓN ABIERTA</span>
+            La FAA indica que L3Harris trabajaba en la instalación de un router nuevo en El Dorado y que el parón se tomó por precaución. Su explicación no atribuye la incidencia a una Administración anterior.
+            <span class="dato-fuente">Contraste: <a href="https://www.faa.gov/newsroom/nationwide-ground-stop-questions-and-answers" rel="noopener">FAA · Preguntas y respuestas del parón</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="latam" aria-labelledby="t-latam">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 04</span>
+      <h2 id="t-latam">Venezuela y Latinoamérica</h2>
+    </div>
+
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-07-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-07 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-07-titulo">Criteria mide la aprobación de Kast en el 18% en medio de nuevas protestas</h3>
+          <div class="resumen">
+            <p>El País informa de que la última encuesta de Criteria sitúa la aprobación del presidente chileno José Antonio Kast en el 18%, seis puntos menos que la semana anterior, y la desaprobación en el 72%. Un 60% de las personas consultadas espera que la economía chilena empeore en los próximos seis meses.</p>
+            <p>El diario relaciona el descenso con las protestas de transportistas y una crisis política en torno al ministro de Justicia. Son respuestas de una encuesta semanal, no intención de voto ni un registro administrativo.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/chile/2026-11-15/kast-baja-por-primera-vez-del-20-de-popularidad-desfondado-por-el-caso-rabat-y-las-concesiones-a-los-camioneros.html" rel="noopener">El País Chile</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País Chile</span>
+              <p class="enfoque-frase">El titular utiliza «desfondado» y conecta la caída con dos controversias; el cuerpo entrega cifras y atribuye los resultados al sondeo de Criteria.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">802 RESPUESTAS</span>
+            Criteria describe un panel certificado en línea, con cuestionario autoadministrado y diseño cuantitativo no probabilístico. El 18% expresa aprobación en esa muestra; no es una estimación oficial del voto.
+            <span class="dato-fuente">Contraste: <a href="https://www.criteria.cl/site/wp-content/uploads/2026/11/Agenda_Criteria_15_Noviembre_2026_11vRs.pdf" rel="noopener">Criteria · Agenda 15 de noviembre</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-08-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-08 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-08-titulo">Muere a los 80 años Miguel Ángel Félix Gallardo</h3>
+          <div class="resumen">
+            <p>El País, Fox News y TMZ informan de la muerte hospitalaria de Miguel Ángel Félix Gallardo, fundador del Cartel de Guadalajara y conocido como «Jefe de Jefes». Reuters recoge que autoridades de seguridad locales confirmaron el traslado a un hospital de Guadalajara y el fallo multiorgánico.</p>
+            <p>El País y TMZ subrayan el apodo y su papel histórico en el narcotráfico mexicano; Fox News destaca la condena por el asesinato de un agente de la DEA en 1985. Las crónicas tratan su trayectoria y muerte, sin atribuirle una función actual en organizaciones criminales.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/mexico/2026-11-15/muere-el-narco-miguel-angel-felix-gallardo-el-jefe-de-jefes-a-los-80-anos.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.foxnews.com/world/mexicos-cartel-godfather-convicted-american-dea-agents-murder-dies-age-80" rel="noopener">Fox News</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.tmz.com/2026/11/15/miguel-angel-felix-gallardo-dead/" rel="noopener">TMZ</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">El titular combina su condición de fundador, el apodo y la edad; el texto sitúa la muerte en la historia reciente del narcotráfico mexicano.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Fox News</span>
+              <p class="enfoque-frase">La frase «cartel godfather» y la mención del agente estadounidense llevan el encuadre hacia el lector de EE. UU. y el caso DEA.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">TMZ</span>
+              <p class="enfoque-frase">El titular breve destaca su alias de fundador y la edad; condensa la trayectoria criminal en una nota de actualidad.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">80 AÑOS</span>
+            Reuters, citando a autoridades de seguridad locales, informa del traslado al hospital y de un fallo multiorgánico. La edad y la muerte coinciden con los reportes de los tres medios.
+            <span class="dato-fuente">Contraste: <a href="https://www.investing.com/news/world-news/mexicos-guadalajara-cartel-founder-aged-80-dies-in-hospital-milenio-reports-5028133" rel="noopener">Reuters · Información sobre el fallecimiento</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="deportes" aria-labelledby="t-deportes">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 05</span>
+      <h2 id="t-deportes">Deportes</h2>
+    </div>
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-09-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-09 · Clasif. abierta</span>
+          <span class="sello sello--act">ACTUALIZACIÓN</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-09-titulo">Inglaterra vence 3-2 a España y se queda con el primer puesto del grupo</h3>
+          <div class="resumen">
+            <p>Inglaterra ganó 3-2 en el Metropolitano, terminó primera del grupo A3 y dejó a España segunda. La Roja llegó a ir perdiendo por tres goles y marcó dos; Inglaterra resistió con diez jugadores tras la expulsión de Elliot Anderson.</p>
+            <p>El resultado completa la previa del partido incluida en el informe anterior. El País y AS cuentan 44 encuentros en la racha invicta española; Fox Sports USA habla de 43 y FIFA alude a 42. Como las fuentes no usan un conteo uniforme, aquí se prioriza el marcador y la clasificación.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/deportes/futbol/2026-11-15/inglaterra-devora-la-leyenda-de-espana.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://as.com/futbol/inglaterra-se-come-al-campeon-f202611-n/" rel="noopener">AS</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.libertaddigital.com/deportes/futbol/2026-11-15/espana-cede-el-primer-puesto-y-pone-fin-a-su-impresionante-racha-7491869/" rel="noopener">Libertad Digital</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.foxsports.com/stories/soccer/spain-england-france-italy-nations-league-3-takeaways" rel="noopener">Fox Sports USA</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">El titular «devora la leyenda» dramatiza el final de la racha; la crónica destaca el 0-3 y la remontada parcial de España.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">AS</span>
+              <p class="enfoque-frase">El título «se come al campeón» y el foco en la pérdida del liderato dan una lectura intensa y crítica del rendimiento español.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Libertad Digital</span>
+              <p class="enfoque-frase">El titular resume los dos efectos deportivos, primer puesto perdido y fin de la racha, con una valoración positiva de la serie anterior.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Fox Sports USA</span>
+              <p class="enfoque-frase">La pieza promete tres conclusiones de la jornada y encuadra el partido alrededor del triunfo inglés y el récord que terminó.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">2–3</span>
+            UEFA y la RFEF confirman el marcador y el segundo puesto de España en el grupo A3. Las fuentes consultadas discrepan en el número de partidos de la racha invicta, por lo que no se presenta una cifra única.
+            <span class="dato-fuente">Contraste: <a href="https://www.uefa.com/uefanationsleague/news/02a2-1fea7079900a-801b2c5f6c9e-1000--2026-uefa-nations-league-league-phase-fixtures-by-team/" rel="noopener">UEFA · Resultado y clasificación</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-10-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-10 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-10-titulo">Venezuela gana el Mundial Sub-23 de béisbol por segunda vez</h3>
+          <div class="resumen">
+            <p>Líder en Deportes informa de que Venezuela derrotó a Australia en Managua y se coronó campeona del mundo Sub-23 por segunda ocasión. La federación australiana de béisbol confirma en su crónica oficial la derrota 5-0 en la final.</p>
+            <p>El lanzador Andry Lara permitió tres hits y ponchó a 11 durante seis entradas sin carreras, según el reporte de Baseball Australia. La información del torneo identifica a Venezuela como campeona y a Australia como medallista de plata.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.liderendeportes.com/baseball/seleccionnacional/venezuela-se-corona-campeon-del-mundo-sub-23-por-segunda-vez/" rel="noopener">Líder en Deportes</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Líder en Deportes</span>
+              <p class="enfoque-frase">El titular centra el resultado en el segundo título venezolano; la nota se dirige a la afición local y destaca el logro nacional.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">5–0</span>
+            La crónica de Baseball Australia confirma el marcador de la final, el oro de Venezuela y la plata australiana; la ficha del torneo enlaza al box score de la WBSC.
+            <span class="dato-fuente">Contraste: <a href="https://baseball.com.au/news/u23goldrecap/" rel="noopener">Baseball Australia · Crónica oficial de la final</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-11-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-11 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-11-titulo">San Francisco derrota 46-40 a Dallas con una gran noche de McCaffrey</h3>
+          <div class="resumen">
+            <p>Los 49ers vencieron 46-40 a los Cowboys en Dallas. Fox Sports USA analiza tres claves y destaca el juego terrestre de San Francisco; Fox News presenta el triunfo como una exhibición ofensiva y pone el foco en Christian McCaffrey.</p>
+            <p>La ficha oficial de la NFL registra para McCaffrey cuatro recepciones, 161 yardas y dos touchdowns. Las notas de Fox News sobre más de 580 yardas ofensivas no son necesarias para explicar el resultado y no se repiten aquí.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.foxsports.com/stories/nfl/san-francisco-49ers-vs-dallas-cowboys-takeaways-november-15-2026" rel="noopener">Fox Sports USA</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.foxnews.com/outkick-sports/49ers-offense-580-yards-bad-cowboys-defense-christian-mccaffrey-masterclass" rel="noopener">Fox News</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Fox Sports USA</span>
+              <p class="enfoque-frase">Organiza la crónica en tres conclusiones y enfatiza el dominio terrestre de San Francisco; la pieza editorializa sobre los puntos débiles de Dallas.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">Fox News</span>
+              <p class="enfoque-frase">El titular habla de «bad Cowboys defense» y presenta el ataque de los 49ers como una actuación dominante, con McCaffrey como protagonista.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">46–40</span>
+            El marcador final y las estadísticas de recepción de McCaffrey constan en la ficha de partido de la NFL: 4 recepciones, 161 yardas y 2 touchdowns.
+            <span class="dato-fuente">Contraste: <a href="https://static.www.nfl.com/image/upload/v1794790580/gamecenter/ab78a748-4feb-11f1-abca-2c54536568a9.pdf" rel="noopener">NFL · Ficha oficial del partido</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 06</span>
+      <h2 id="t-espectaculos">Espectáculos</h2>
+    </div>
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-12-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-12 · Clasif. abierta</span>
+          <span class="sello sello--act">ACTUALIZACIÓN</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-12-titulo">Laura Brand dice que continuará el pódcast tras la condena de Russell Brand</h3>
+          <div class="resumen">
+            <p>En el episodio del 15 de noviembre de Sunday Service, Laura Brand anunció que seguirá con el pódcast y su comunidad semanal. E! News presenta sus primeras declaraciones públicas tras la condena de su marido; TMZ destaca la inesperada aparición de Brand en el programa.</p>
+            <p>La novedad es la reacción familiar y el futuro del canal, no un cambio judicial. Ninguna de las dos piezas informa de una nueva resolución ni de una modificación de la condena.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.eonline.com/news/1438142/russell-brands-wife-laura-speaks-out-after-his-conviction-prison-sentence" rel="noopener">E! News</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.tmz.com/2026/11/15/russell-brand-appears-on-his-youtube-show/" rel="noopener">TMZ</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">E! News</span>
+              <p class="enfoque-frase">El titular habla de que la esposa «rompe el silencio» y centra la noticia en sus primeras declaraciones y la continuidad del pódcast.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">TMZ</span>
+              <p class="enfoque-frase">El titular califica la aparición de inesperada y la relaciona con comentarios morales; privilegia el giro audiovisual y la reacción de su esposa.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="leve">LEVE</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">SIN CAMBIO JUDICIAL</span>
+            La sentencia pública del tribunal documenta la condena previa. Las noticias de E! y TMZ añaden la reacción de Laura Brand y no informan de una apelación resuelta.
+            <span class="dato-fuente">Contraste: <a href="https://www.judiciary.uk/wp-content/uploads/2026/11/R-v-Russell-Brand-Sentencing-Remarks-9.11.26-1.pdf" rel="noopener">Tribunal de la Corona · Sentencia</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="otros" aria-labelledby="t-otros">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 07</span>
+      <h2 id="t-otros">Otros</h2>
+    </div>
+    <div class="lista-temas">
+      <!-- INICIO TARJETA TEMA -->
+      <article class="expediente" aria-labelledby="tema-tr0011-13-titulo">
+        <div class="expediente-cabecera">
+          <span>EXP. TR-0011-13 · Clasif. abierta</span>
+          <span class="sello">NUEVO</span>
+        </div>
+        <div class="expediente-cuerpo">
+          <h3 id="tema-tr0011-13-titulo">Sergio Ramírez ingresa en la RAE y dedica su discurso a Vargas Llosa</h3>
+          <div class="resumen">
+            <p>El escritor nicaragüense Sergio Ramírez ingresó como académico de número de la Real Academia Española y ocupa la silla L, vacante tras la muerte de Mario Vargas Llosa. Su discurso de ingreso, «Un novelista ecuménico», rindió homenaje a su maestro.</p>
+            <p>El País vincula el acto con la experiencia de exilio de Ramírez y su relación con el español; ABC pone más énfasis en la ceremonia y en el tributo a Vargas Llosa. Es una noticia cultural, no un cambio político o institucional adicional.</p>
+          </div>
+          <p class="etiqueta-bloque">Lo cubren</p>
+          <ul class="chips">
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://elpais.com/cultura/2026-11-15/sergio-ramirez-ingresa-en-la-rae-perdi-un-pais-pero-nunca-he-sido-extranjero-en-espana.html" rel="noopener">El País</a></li>
+            <!-- FIN CHIP MEDIO -->
+            <!-- INICIO CHIP MEDIO -->
+            <li><a class="chip" href="https://www.abc.es/cultura/sergio-ramirez-ingresa-rae-homenaje-vargas-llosa-20261115203000-nt.html" rel="noopener">ABC</a></li>
+            <!-- FIN CHIP MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Enfoque por medio</p>
+          <ul class="enfoques">
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">El País</span>
+              <p class="enfoque-frase">El titular cita la experiencia de exilio y la relación de Ramírez con España; el reportaje añade el contenido literario del discurso.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+            <!-- INICIO ENFOQUE MEDIO -->
+            <li class="enfoque">
+              <span class="enfoque-medio">ABC</span>
+              <p class="enfoque-frase">ABC centra el encabezado en el ingreso académico y el homenaje a Vargas Llosa, con un tono de crónica ceremonial.</p>
+              <div class="medidor-fila">
+                <span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span>
+                <span class="nivel" data-nivel="neutral">NEUTRAL</span>
+              </div>
+            </li>
+            <!-- FIN ENFOQUE MEDIO -->
+          </ul>
+          <p class="etiqueta-bloque">Contraste de datos</p>
+          <!-- INICIO CONTRASTE DATO -->
+          <blockquote class="dato">
+            <span class="dato-cifra">SILLA L</span>
+            Ambas crónicas coinciden en el ingreso de Ramírez y el homenaje a Vargas Llosa. No hay cifras estadísticas que requieran contraste adicional.
+            <span class="dato-fuente">Contraste: <a href="https://elpais.com/cultura/2026-11-15/sergio-ramirez-ingresa-en-la-rae-perdi-un-pais-pero-nunca-he-sido-extranjero-en-espana.html" rel="noopener">El País</a> · <a href="https://www.abc.es/cultura/sergio-ramirez-ingresa-rae-homenaje-vargas-llosa-20261115203000-nt.html" rel="noopener">ABC</a></span>
+          </blockquote>
+          <!-- FIN CONTRASTE DATO -->
+        </div>
+      </article>
+      <!-- FIN TARJETA TEMA -->
+        </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>Marca: La portada fue denegada por robots.txt; no se recuperaron titulares verificables.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>ESPN Deportes: La portada exige verificación antirobot y JavaScript; no se verificó una pieza actual.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>El Mundo: La portada fue denegada por robots.txt; no se recuperaron titulares verificables.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>CNN: El RSS oficial falló con un error TLS en tres intentos; no se verificó una pieza actual.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>Fox Sports México: La portada respondió HTTP 502; no se verificó una pieza actual.</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>16.11.26 06:58 h</strong><br>
+      Transmisión: <strong>TR-0011</strong> · Temas: <strong>13</strong> · Medios consultados: <strong>11 de 16</strong>
+    </p>
+
+    <a class="boton" href="index.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
