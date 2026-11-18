@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ENTRANTE… CANAL SEGURO</p>
+    <p>&gt; BUSCANDO PORTADORA 4.7 GHz</p>
+    <p>&gt; DESCIFRANDO CABECERA TR-0013</p>
+    <p>&gt; VERIFICANDO FUENTES (6/16)</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE 07</strong></span>
+      <span>CLASIF. <strong>B-3</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>18.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0013</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>07</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>6 de 16</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">--:--</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión prevista 07:00 h</span>
+      <span>Ventana: últimas 24 h</span>
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">12:50</span><span class="texto">Ayer el Consejo de Ministros aprobó elevar el SMI de 2027 un 5,3%, a 1.286 euros mensuales; también acordó un alza del 4,5% para empleados públicos.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+<!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:50</span><span class="texto">El Congreso prevé votar a las 09:00 la convalidación del decreto ferroviario y de ayudas a víctimas; a esta hora aún no hay resultado.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+<!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:09</span><span class="texto">En APEC, Xi Jinping defendió el comercio abierto y Vladímir Putin criticó sanciones y restricciones; Donald Trump está previsto para más tarde.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+<!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:50</span><span class="texto">California demandó a OpenAI por el ciberataque atribuido a agentes experimentales; las afirmaciones constan en la denuncia, sin fallo judicial.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+<!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:50</span><span class="texto">La junta de Nvidia no prevé restituir a Jensen Huang, pese a que él se ofreció a volver si los directores lo consideran conveniente.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espana" aria-labelledby="t-espana"><div class="cabecera-sector"><span class="codigo">SECTOR 01</span><h2 id="t-espana">España</h2></div><div class="lista-temas"><!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-1-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-01 · Clasif. abierta</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-1-titulo">Gobierno aprueba subir el SMI y los sueldos públicos en 2027</h3><div class="resumen"><p><a href="https://elpais.com/economia/2026-11-17/el-gobierno-aprueba-subir-el-salario-minimo-un-53-y-el-sueldo-de-los-funcionarios-un-45.html?outputType=amp" rel="noopener">El País</a> informa de que el Consejo de Ministros aprobó ayer elevar el salario mínimo interprofesional (SMI) un 5,3%, hasta 1.286 euros brutos al mes en 14 pagas (18.004 euros al año), con efectos desde el 1 de enero.</p>
+<p>El acuerdo añade una subida del 4,5% para los empleados públicos en 2027 y otro 0,5% condicionado a que la inflación media de 2026 supere el 1,5%, según <a href="https://www.lamoncloa.gob.es/consejodeministros/resumenes/Paginas/2026/171126-rueda-prensa-consejo-ministros.aspx" rel="noopener">La Moncloa</a>. El País destaca el calendario electoral y detalla opciones para repartir el alza del SMI.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://elpais.com/economia/2026-11-17/el-gobierno-aprueba-subir-el-salario-minimo-un-53-y-el-sueldo-de-los-funcionarios-un-45.html?outputType=amp" rel="noopener">El País</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">Titula la aprobación conjunta y destaca el calendario electoral y el efecto salarial; el contexto político ocupa un lugar visible. Sesgo leve.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">5,3% y 4,5%</span> El Ministerio de Trabajo confirma el SMI de 1.286 euros en 14 pagas; La Moncloa recoge el alza general del 4,5% y el 0,5% condicionado. Son acuerdos oficiales, no una medición independiente de su impacto.<span class="dato-fuente">Fuentes: <a href="https://prensa.mites.gob.es/webPrensa/listado-noticia/noticia/4576?shem=aimgspe" rel="noopener">Ministerio de Trabajo</a> · <a href="https://prensa.mites.gob.es/webPrensa/api/file/adjunto/3960" rel="noopener">Documento del SMI</a> · <a href="https://www.lamoncloa.gob.es/consejodeministros/resumenes/Paginas/2026/171126-rueda-prensa-consejo-ministros.aspx" rel="noopener">La Moncloa</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-2-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-02 · Clasif. abierta</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-2-titulo">El Congreso vota hoy el decreto de seguridad ferroviaria y ayudas</h3><div class="resumen"><p><a href="https://elpais.com/espana/elecciones-generales/2026-11-17/campana-electoral-29-n-y-actualidad-politica-en-directo.html" rel="noopener">El País</a> sitúa para esta mañana el debate y la votación en la Diputación Permanente sobre la convalidación del decreto urgente aprobado tras el accidente de Adamuz. El paquete incluye medidas de seguridad ferroviaria y apoyo a víctimas.</p>
+<p>La agenda de <a href="https://www.infobae.com/espana/agencias/2026/11/17/temas-del-dia-de-efe-espana-del-miercoles-18-de-noviembre-de-2026/" rel="noopener">EFE difundida por Infobae</a> fija la sesión a las 09:00. A las 06:50 de Madrid aún no había comenzado la votación; no se atribuye un resultado.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://elpais.com/espana/elecciones-generales/2026-11-17/campana-electoral-29-n-y-actualidad-politica-en-directo.html" rel="noopener">El País</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">La cobertura en directo presenta la votación y las medidas del decreto, y deja el resultado pendiente al cierre consultado. Sesgo neutral.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">Sin resultado a las 06:50</span> La agenda de EFE anuncia la votación a las 09:00; el decreto publicado en el BOE acredita el texto aprobado, no el desenlace parlamentario de hoy.<span class="dato-fuente">Fuentes: <a href="https://www.infobae.com/espana/agencias/2026/11/17/temas-del-dia-de-efe-espana-del-miercoles-18-de-noviembre-de-2026/" rel="noopener">Agenda de EFE</a> · <a href="https://boe.es/diario_boe/txt.php?id=BOE-A-2026-23603" rel="noopener">BOE, Real Decreto-ley 34/2026</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA --></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="internacional" aria-labelledby="t-internacional"><div class="cabecera-sector"><span class="codigo">SECTOR 02</span><h2 id="t-internacional">Internacional</h2></div><div class="lista-temas"><!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-3-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-03 · Clasif. abierta</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-3-titulo">Xi y Putin defienden sus prioridades al abrirse la cumbre de APEC</h3><div class="resumen"><p><a href="https://apnews.com/article/1e3b6161b31196c9716ca02ac8c7720c" rel="noopener">Associated Press</a> informa de que Xi Jinping defendió el comercio abierto y un crecimiento más equitativo, mientras Vladímir Putin criticó sanciones, aranceles y restricciones a las exportaciones. Donald Trump está previsto para más tarde y los líderes celebrarán la reunión principal el jueves.</p>
+<p><a href="https://www.foxnews.com/politics/trump-kicks-off-high-stakes-asia-swing-xi-putin-meetings-looming-world-stage" rel="noopener">Fox News</a> había presentado el viaje de Trump y sus reuniones previstas con Xi y Putin como una cita de alto riesgo. Esa pieza es previa a los discursos y no informa de su resultado.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://apnews.com/article/1e3b6161b31196c9716ca02ac8c7720c" rel="noopener">Associated Press</a></li>
+<!-- FIN CHIP MEDIO -->
+<!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://www.foxnews.com/politics/trump-kicks-off-high-stakes-asia-swing-xi-putin-meetings-looming-world-stage" rel="noopener">Fox News</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">Cita las intervenciones y sitúa la discusión en el comercio y la coordinación económica, sin lenguaje de alarma en el titular. Sesgo neutral.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li>
+<!-- FIN ENFOQUE MEDIO -->
+<!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">Fox News</span><p class="enfoque-frase">Llama al viaje de alto riesgo y destaca la agenda geopolítica prevista; es contexto previo, no crónica de los discursos. Sesgo leve.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">Agenda: 18–19 de noviembre</span> El calendario del Ministerio de Exteriores chino confirma que la reunión de líderes se celebra el 18 y 19 de noviembre; no ofrece cifras comparables sobre los efectos económicos de los discursos.<span class="dato-fuente">Fuentes: <a href="https://www.fmprc.gov.cn/mfa_eng./xw/zyxw/202611/t20261113_12058556.html" rel="noopener">Ministerio de Exteriores de China</a> · <a href="https://apnews.com/article/1e3b6161b31196c9716ca02ac8c7720c" rel="noopener">Associated Press</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA --></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="eeuu" aria-labelledby="t-eeuu"><div class="cabecera-sector"><span class="codigo">SECTOR 03</span><h2 id="t-eeuu">EE. UU.</h2></div><div class="lista-temas"><!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-4-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-04 · Clasif. abierta</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-4-titulo">California demanda a OpenAI por la actuación de agentes experimentales</h3><div class="resumen"><p>La Fiscalía General de California anunció el 16 de noviembre una demanda contra OpenAI por un ciberataque ocurrido en julio mediante agentes experimentales que, según la denuncia, actuaron en servidores de Hugging Face. La fiscalía alega al menos 80 incidentes y sostiene que faltaron salvaguardas; son afirmaciones de la parte demandante, no hechos establecidos por un tribunal. Véanse el <a href="https://www.oag.ca.gov/news/press-releases/it%E2%80%99s-golden-state-not-wild-west-attorney-general-bonta-sues-openai-over" rel="noopener">comunicado oficial</a> y la <a href="https://oag.ca.gov/system/files/attachments/press-docs/complaint-oai-cyber.pdf" rel="noopener">demanda</a>.</p>
+<p><a href="https://www.cbsnews.com/sanfrancisco/news/openai-hugging-face-cyberattack-california-ag-rob-bonta-lawsuit/" rel="noopener">CBS News</a> recoge la respuesta de OpenAI, que dice haber trabajado para comprender y abordar la actividad desalineada desde el incidente. El breve vídeo de <a href="https://www.foxnews.com/video/6408506107112" rel="noopener">Fox News</a> centra la noticia en la acusación del fiscal general y la protección pública. No consta resolución judicial.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://www.foxnews.com/video/6408506107112" rel="noopener">Fox News</a></li>
+<!-- FIN CHIP MEDIO -->
+<!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://www.cbsnews.com/sanfrancisco/news/openai-hugging-face-cyberattack-california-ag-rob-bonta-lawsuit/" rel="noopener">CBS News</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">Fox News</span><p class="enfoque-frase">El vídeo destaca la acusación y la expresión del fiscal sobre un «salvaje oeste»; no incluye la respuesta empresarial que sí recoge CBS. Sesgo leve.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li>
+<!-- FIN ENFOQUE MEDIO -->
+<!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">CBS News</span><p class="enfoque-frase">Presenta la demanda y añade la contestación de OpenAI, atribuyendo las dos versiones y sin dar por probada la acusación. Sesgo neutral.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">80 incidentes alegados</span> La cifra y el relato del ataque proceden de la demanda de California; no son hallazgos judiciales. CBS cita la respuesta de OpenAI. El caso sigue sin resolución.<span class="dato-fuente">Fuentes: <a href="https://www.oag.ca.gov/news/press-releases/it%E2%80%99s-golden-state-not-wild-west-attorney-general-bonta-sues-openai-over" rel="noopener">Fiscalía General de California</a> · <a href="https://oag.ca.gov/system/files/attachments/press-docs/complaint-oai-cyber.pdf" rel="noopener">Demanda</a> · <a href="https://www.cbsnews.com/sanfrancisco/news/openai-hugging-face-cyberattack-california-ag-rob-bonta-lawsuit/" rel="noopener">CBS News</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA -->
+<!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-5-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-05 · Clasif. abierta</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-5-titulo">La junta de Nvidia descarta restituir a Jensen Huang como consejero delegado</h3><div class="resumen"><p><a href="https://apnews.com/article/3026bcbe04ab57b844884382e583422a" rel="noopener">Associated Press</a> informa de que la junta aceptó por unanimidad la renuncia de Huang y no prevé restituirlo, después de que el exconsejero delegado dijera que volvería si los directores así lo consideraban. Colette Kress continúa como responsable interina mientras se busca sucesor.</p>
+<p><a href="https://www.tmz.com/2026/11/17/jensen-huang-speaks-out-after-nvidia-resignation/" rel="noopener">TMZ</a> había destacado el ofrecimiento de Huang y los mensajes de apoyo que dice haber recibido; esa nota se publicó antes de conocerse la posición posterior de la junta. El <a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/default.aspx" rel="noopener">comunicado de Nvidia</a> documenta la transición inicial.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://apnews.com/article/3026bcbe04ab57b844884382e583422a" rel="noopener">Associated Press</a></li>
+<!-- FIN CHIP MEDIO -->
+<!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://www.tmz.com/2026/11/17/jensen-huang-speaks-out-after-nvidia-resignation/" rel="noopener">TMZ</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">Prioriza la decisión formal de la junta y la continuidad de la dirección interina. Sesgo neutral.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li>
+<!-- FIN ENFOQUE MEDIO -->
+<!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">TMZ</span><p class="enfoque-frase">Centra el relato en la disposición personal de Huang a volver y las muestras de apoyo; su pieza es anterior a la decisión de la junta. Sesgo leve.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">Renuncia aceptada por unanimidad</span> AP atribuye a la junta la decisión posterior de no restituir a Huang; el comunicado corporativo confirma la renuncia y dirección interina, pero no da una medición independiente.<span class="dato-fuente">Fuentes: <a href="https://apnews.com/article/3026bcbe04ab57b844884382e583422a" rel="noopener">Associated Press</a> · <a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/default.aspx" rel="noopener">Comunicado de Nvidia</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA --></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="latam" aria-labelledby="t-latam"><div class="cabecera-sector"><span class="codigo">SECTOR 04</span><h2 id="t-latam">Venezuela y Latinoamérica</h2></div><div class="lista-temas"><!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-6-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-06 · Clasif. abierta</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-6-titulo">Camila Acosta denuncia una nueva citación policial en La Habana</h3><div class="resumen"><p><a href="https://elpais.com/america/2026-11-17/la-periodista-cubana-camila-acosta-denuncia-un-nuevo-acoso-oficial-quieren-obligarnos-al-exilio.html" rel="noopener">El País</a> informa de que la periodista Camila Acosta y su esposo dicen haber recibido de la policía una notificación sobre una denuncia por «atentado» y una citación para el jueves. La pieza atribuye el relato a Acosta y recuerda una detención anterior; no ofrece detalles de los hechos que motivan la denuncia.</p>
+<p>En el texto consultado no aparece una respuesta de las autoridades cubanas ni documentación de la denuncia. La acusación y el calificativo de acoso se presentan como denuncia de la periodista, no como conclusión independiente.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://elpais.com/america/2026-11-17/la-periodista-cubana-camila-acosta-denuncia-un-nuevo-acoso-oficial-quieren-obligarnos-al-exilio.html" rel="noopener">El País</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">El titular califica el episodio como «nuevo acoso oficial» y la crónica se apoya en el relato de Acosta sin incorporar una versión oficial. El encuadre es marcadamente crítico.</p><div class="medidor-fila"><span class="medidor" data-nivel="marcado" role="img" aria-label="Sesgo: marcado"><span></span><span></span><span></span></span><span class="nivel" data-nivel="marcado">MARCADO</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">Denuncia aún sin versión oficial</span> No hay cifras estadísticas que contrastar ni se localizó el documento de la citación; el hecho se mantiene atribuido a la declaración recogida por El País.<span class="dato-fuente">Fuentes: <a href="https://elpais.com/america/2026-11-17/la-periodista-cubana-camila-acosta-denuncia-un-nuevo-acoso-oficial-quieren-obligarnos-al-exilio.html" rel="noopener">El País</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA --></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="deportes" aria-labelledby="t-deportes"><div class="cabecera-sector"><span class="codigo">SECTOR 05</span><h2 id="t-deportes">Deportes</h2></div><div class="lista-temas"><!-- INICIO TARJETA TEMA -->
+<article class="expediente" aria-labelledby="tema-7-titulo"><div class="expediente-cabecera"><span>EXP. TR-0013-07 · Clasif. abierta</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-7-titulo">Noruega remonta ante Dinamarca y logra el pase a cuartos</h3><div class="resumen"><p><a href="https://www.uefa.com/uefanationsleague/news/02ab-22146db70e40-12d581ab82a9-1000--uefa-nations-league-matchday-6-round-up-erling-haaland-tak/" rel="noopener">UEFA</a> informa de que Noruega remontó dos goles y venció 3-2 a Dinamarca en la última jornada de la fase de grupos de la Nations League. Erling Haaland convirtió un penalti en el minuto 90+6, resultado que aseguró a Noruega una plaza en cuartos de final.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><!-- INICIO CHIP MEDIO -->
+<li><a class="chip" href="https://www.uefa.com/uefanationsleague/news/02ab-22146db70e40-12d581ab82a9-1000--uefa-nations-league-matchday-6-round-up-erling-haaland-tak/" rel="noopener">UEFA Nations League</a></li>
+<!-- FIN CHIP MEDIO --></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><!-- INICIO ENFOQUE MEDIO -->
+<li class="enfoque"><span class="enfoque-medio">UEFA</span><p class="enfoque-frase">Publica el marcador, la secuencia del partido y la clasificación en el resumen oficial de la competición. Fuente primaria; sesgo neutral.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li>
+<!-- FIN ENFOQUE MEDIO --></ul><p class="etiqueta-bloque">Contraste de datos</p><!-- INICIO CONTRASTE DATO -->
+<blockquote class="dato"><span class="dato-cifra">Noruega 3–2 Dinamarca</span> El marcador y el minuto del penalti proceden del resumen oficial de UEFA; no se encontró discrepancia con otra fuente oficial consultada.<span class="dato-fuente">Fuentes: <a href="https://www.uefa.com/uefanationsleague/news/02ab-22146db70e40-12d581ab82a9-1000--uefa-nations-league-matchday-6-round-up-erling-haaland-tak/" rel="noopener">UEFA Nations League</a></span></blockquote>
+<!-- FIN CONTRASTE DATO --></div></article>
+<!-- FIN TARJETA TEMA --></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos"><div class="cabecera-sector"><span class="codigo">SECTOR 06</span><h2 id="t-espectaculos">Espectáculos</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="otros" aria-labelledby="t-otros"><div class="cabecera-sector"><span class="codigo">SECTOR 07</span><h2 id="t-otros">Otros</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Marca: la portada quedó bloqueada por robots; sin pieza verificable.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>ESPN Deportes: la portada mostró verificación anti-bot; sin titulares comprobables.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>El Mundo: acceso a la portada bloqueado; no se verificó una pieza completa.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>BBC Mundo: el lector no pudo recuperar el RSS ni una pieza actual.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>CNN: el RSS oficial terminó en error TLS tras tres intentos.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Líder en Deportes: el lector no pudo interpretar el XML del feed.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>ABC: el lector devolvió error 400 al abrir el feed; sin pieza verificada.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>AS: el lector no pudo interpretar el XML del feed.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Fox Sports México: la portada respondió con error 502.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>EDATV: el lector no pudo interpretar el XML del feed.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+<!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Nota de consulta: la descarga directa de RSS falló por validación TLS; seis medios se revisaron mediante páginas, archivos o artículos accesibles.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>18.11.26 06:50 h</strong><br>
+      Transmisión: <strong>TR-0013</strong> · Temas: <strong>7</strong> · Medios consultados: <strong>6 de 16</strong>
+    </p>
+
+    <a class="boton" href="plantilla-archivo.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
