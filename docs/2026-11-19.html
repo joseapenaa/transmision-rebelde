@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ENTRANTE… CANAL SEGURO</p>
+    <p>&gt; BUSCANDO PORTADORA 4.7 GHz</p>
+    <p>&gt; DESCIFRANDO CABECERA TR-0014</p>
+    <p>&gt; VERIFICANDO FUENTES (2/16)</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE 07</strong></span>
+      <span>CLASIF. <strong>B-3</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>19.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0014</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>05</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>2</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">--:--</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión 07:00 h</span>
+      
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:24</span><span class="texto">Xi inauguró la reunión de APEC en Shenzhen y pidió mantener abiertos el comercio y el desarrollo tecnológico.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">17:24</span><span class="texto">El cara a cara entre Sánchez y Feijóo quedó fijado para las 22:00, con cinco bloques y reglas de intervención detalladas.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:01</span><span class="texto">Legisladores demócratas de Misisipi piden investigar un aumento de casi 60.000 votantes marcados como inactivos.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:40</span><span class="texto">La Corte Internacional de Justicia prevé leer hoy su fallo en el caso de genocidio contra Myanmar por la persecución rohinyá.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+<li><span class="hora">06:40</span><span class="texto">Representantes de gobiernos estatales y locales de EE. UU. participan en las conversaciones climáticas de la ONU.</span></li>
+<!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espana" aria-labelledby="t-espana"><div class="cabecera-sector"><span class="codigo">SECTOR 01</span><h2 id="t-espana">España</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-1-titulo"><div class="expediente-cabecera"><span>EXP. TR-0014-01 · Clasif. reservado</span><span class="sello sello--act">ACTUALIZACIÓN</span></div><div class="expediente-cuerpo"><h3 id="tema-1-titulo">Sánchez y Feijóo llegan al cara a cara decisivo de la campaña</h3><div class="resumen"><p>El primer debate televisado entre Pedro Sánchez y Alberto Núñez Feijóo está previsto para las 22:00 del jueves 19. La Academia de Televisión ha detallado el formato: cinco bloques de 18 minutos sobre vivienda, economía y fiscalidad, servicios públicos, regeneración democrática y migración y política exterior.</p><p>Feijóo abrirá el encuentro y Sánchez lo cerrará. Los candidatos estarán sin teléfonos y el tiempo lo controlarán árbitros de baloncesto; la señal institucional se distribuirá a varias cadenas. La novedad respecto al anuncio inicial es el detalle operativo del debate.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/espana/elecciones-generales/2026-11-18/como-sera-el-cara-a-cara-entre-sanchez-y-feijoo-sin-dispositivos-electronicos-y-con-arbitros-de-baloncesto-midiendo-el-tiempo.html" rel="noopener">EL PAÍS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">EL PAÍS</span><p class="enfoque-frase">El diario centra la pieza en las reglas escénicas y el control del tiempo, con foco en el formato y sin adjudicar ventaja a un candidato.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Contexto</span>Sin cifras de resultados electorales en esta noticia. La fecha y el horario se presentan como datos de organización, no como resultados.<span class="dato-fuente">Fuente: <a href="https://elpais.com/espana/elecciones-generales/2026-11-18/como-sera-el-cara-a-cara-entre-sanchez-y-feijoo-sin-dispositivos-electronicos-y-con-arbitros-de-baloncesto-midiendo-el-tiempo.html" rel="noopener">EL PAÍS, detalles del debate</a></span></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="internacional" aria-labelledby="t-internacional"><div class="cabecera-sector"><span class="codigo">SECTOR 02</span><h2 id="t-internacional">Internacional</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-2-titulo"><div class="expediente-cabecera"><span>EXP. TR-0014-02 · Clasif. reservado</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-2-titulo">APEC abre en Shenzhen con el comercio y la tecnología en el centro</h3><div class="resumen"><p>La reunión de líderes de APEC comenzó en Shenzhen con un llamamiento de Xi Jinping a mantener abiertos el comercio y el desarrollo tecnológico. La cobertura de Associated Press describe la cumbre como una demostración del liderazgo chino en inteligencia artificial y tecnologías avanzadas.</p><p>El encuentro ocurre en paralelo a una agenda de reuniones de alto nivel entre China, Estados Unidos y Rusia. Las declaraciones públicas sobre cooperación comercial conviven con tensiones geopolíticas y controles tecnológicos; la cobertura disponible no confirma un acuerdo final de los líderes.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/bb61e50e4b0bb0b975b0695dc4f7b64a" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">La crónica destaca el mensaje chino sobre apertura y el escaparate tecnológico de Shenzhen; encuadre descriptivo, con énfasis en la agenda de Pekín.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Contexto</span>No se atribuyen acuerdos comerciales ni cifras económicas concluyentes en la pieza consultada.<span class="dato-fuente">Fuente: <a href="https://www.apec.org/meeting-papers/leaders-declarations" rel="noopener">APEC, declaraciones oficiales de líderes</a></span></blockquote></div></article><article class="expediente" aria-labelledby="tema-3-titulo"><div class="expediente-cabecera"><span>EXP. TR-0014-03 · Clasif. reservado</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-3-titulo">La CIJ tiene previsto pronunciarse sobre la demanda rohinyá contra Myanmar</h3><div class="resumen"><p>La Corte Internacional de Justicia tiene previsto leer este jueves su sentencia en el caso iniciado por Gambia, que acusa a Myanmar de vulnerar la Convención contra el Genocidio durante la represión contra la población rohinyá. La vista está anunciada para las 08:00 GMT; a la hora de generación del informe, el fallo aún no se había publicado.</p><p>La decisión puede aclarar obligaciones estatales bajo la Convención y orientar litigios posteriores. Myanmar rechaza la acusación y sostiene que su operación fue una respuesta antiterrorista; el proceso se refiere a responsabilidad entre Estados y no determina por sí solo culpabilidad penal individual.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/86eadcfb1d3905d38e4997e48ba938ad" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">La agencia explica el calendario judicial, las posiciones de Gambia y Myanmar y el contexto humanitario, distinguiendo acusación de fallo.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Contexto</span>El litigio se basa en la Convención para la Prevención y la Sanción del Delito de Genocidio; no hay sentencia disponible al cierre de esta edición.<span class="dato-fuente">Fuente: <a href="https://www.icj-cij.org/case/178" rel="noopener">Corte Internacional de Justicia, Gambia contra Myanmar</a></span></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="eeuu" aria-labelledby="t-eeuu"><div class="cabecera-sector"><span class="codigo">SECTOR 03</span><h2 id="t-eeuu">EE. UU.</h2></div><div class="lista-temas"><article class="expediente" aria-labelledby="tema-4-titulo"><div class="expediente-cabecera"><span>EXP. TR-0014-04 · Clasif. reservado</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-4-titulo">Legisladores de Misisipi exigen revisar el aumento de votantes inactivos</h3><div class="resumen"><p>Legisladores demócratas de Misisipi pidieron una investigación sobre el uso de datos de crédito para revisar los registros electorales antes de las elecciones de medio mandato. Associated Press informa que casi 60.000 personas adicionales quedaron clasificadas como inactivas desde la elección presidencial de 2024.</p><p>La cifra y la explicación del cambio proceden de la cobertura periodística y de los registros estatales que cita; la petición legislativa no demuestra por sí sola que se haya eliminado a votantes elegibles ni que el cambio afecte a la posibilidad de votar. La investigación solicitada aún no ha concluido.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/7a9282987612197b43c73cf05f7e7d31" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">La pieza pone el foco en la demanda de supervisión demócrata y en el método usado para revisar padrones; presenta la acusación como pendiente de investigación.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Contexto</span>El aumento de casi 60.000 es la cifra publicada por AP; no se localizó en esta consulta una serie oficial independiente que permita comprobarla y explicar cada cambio de estatus.<span class="dato-fuente">Fuente: <a href="https://apnews.com/article/7a9282987612197b43c73cf05f7e7d31" rel="noopener">Associated Press, registros electorales de Misisipi</a></span></blockquote></div></article><article class="expediente" aria-labelledby="tema-5-titulo"><div class="expediente-cabecera"><span>EXP. TR-0014-05 · Clasif. reservado</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-5-titulo">Gobiernos estatales y locales de EE. UU. acuden a las conversaciones climáticas de la ONU</h3><div class="resumen"><p>Representantes demócratas de distintos niveles de gobierno participan en las conversaciones climáticas de Naciones Unidas mientras se debate cómo mantener la acción climática cuando Washington federal deja de liderar parte de esa agenda. Associated Press recoge experiencias de autoridades locales y estatales que sostienen compromisos propios.</p><p>La cobertura también menciona cooperación climática de España con California y Washington. Es una señal de actividad subnacional, no un acuerdo nacional vinculante ni un reemplazo de la política federal.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/ba522c208652b4e9baeca40a81ab53c4" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">La agencia recoge las voces de cargos locales y estatales y el debate sobre la retirada de liderazgo federal; tono explicativo y centrado en iniciativas subnacionales.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Contexto</span>La noticia describe iniciativas de autoridades subnacionales; no ofrece una medida cuantitativa comparable de su impacto.<span class="dato-fuente">Fuente: <a href="https://apnews.com/article/ba522c208652b4e9baeca40a81ab53c4" rel="noopener">Associated Press, conversaciones climáticas de la ONU</a></span></blockquote></div></article></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="venezuela" aria-labelledby="t-venezuela"><div class="cabecera-sector"><span class="codigo">SECTOR 04</span><h2 id="t-venezuela">Venezuela y Latinoamérica</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="deportes" aria-labelledby="t-deportes"><div class="cabecera-sector"><span class="codigo">SECTOR 05</span><h2 id="t-deportes">Deportes</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos"><div class="cabecera-sector"><span class="codigo">SECTOR 06</span><h2 id="t-espectaculos">Espectáculos</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+<section class="seccion" id="otros" aria-labelledby="t-otros"><div class="cabecera-sector"><span class="codigo">SECTOR 07</span><h2 id="t-otros">Otros</h2></div><div class="lista-temas"><p class="vacio">Sin temas de alta prioridad en esta transmisión.</p></div></section>
+<!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+<li>Marca: no se pudo verificar portada o feed en esta consulta.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+<li>El Mundo: bloqueo de acceso; sin pieza actual verificable.</li>
+<li>BBC Mundo: robots.txt impidió la consulta.</li>
+<li>Fox News: sin pieza actual verificable en ventana.</li>
+<li>CNN: el feed RSS tuvo error TLS; sin pieza actual confirmada.</li>
+<li>Líder en Deportes: sin pieza actual verificable.</li>
+<li>ABC: sin pieza actual verificable.</li>
+<li>Fox Sports México: sin pieza actual verificable.</li>
+<li>Libertad Digital: sin pieza actual verificable.</li>
+<li>EDATV: sin pieza actual verificable.</li>
+<li>TMZ: sin pieza actual verificable en ventana.</li>
+<li>E! News: sin pieza actual verificable en ventana.</li>
+<li>Fox Sports USA: sin pieza actual verificable en ventana.</li>
+<!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>19.11.26 06:40 h</strong><br>
+      Transmisión: <strong>TR-0014</strong> · Temas: <strong>5</strong> · Medios consultados: <strong>2 de 16</strong>
+    </p>
+
+    <a class="boton" href="index.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
