@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión Rebelde · Informe diario</title>
+<meta name="description" content="Parte diario de prensa en español: lo esencial, temas por sector y contraste de medios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TRANSMISIÓN REBELDE · plantilla de informe diario
+   Paleta en tokens. Mobile-first. Sin imágenes externas.
+   ========================================================== */
+:root {
+  --space: #06070a;
+  --panel: #101318;
+  --panel-2: #161a21;
+  --metal: #2c3139;
+  --rivet: #5d6570;
+  --orange: #ff7a1a;
+  --orange-soft: #ffa15c;
+  --bone: #ece4cf;
+  --bone-dim: #b8b09d;
+  --amber: #ffb23a;
+  --amber-dim: #8c6016;
+  --alert: #ff3b30;
+  --grid: rgba(255, 178, 58, 0.14);
+  --gutter: 16px;
+  --display: "Saira Stencil One", "Arial Narrow", Impact, sans-serif;
+  --mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  --readout: "VT323", "Share Tech Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--space); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 122, 26, 0.10), transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 110%, rgba(255, 178, 58, 0.08), transparent 70%),
+    var(--space);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* Grano analógico (SVG en línea) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Líneas de escaneo CRT muy suaves */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 49;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+  opacity: 0.4;
+}
+
+/* Campo de estrellas lento */
+.stars {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -300px;
+  height: calc(100% + 300px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 42%, #ffe2b0, transparent),
+    radial-gradient(1.5px 1.5px at 81% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 73%, #ffd9a0, transparent),
+    radial-gradient(1px 1px at 92% 66%, #fff, transparent),
+    radial-gradient(1px 1px at 4% 88%, #fff, transparent);
+  background-size: 260px 260px;
+  animation: deriva 140s linear infinite;
+}
+@keyframes deriva {
+  from { transform: translateY(0); }
+  to { transform: translateY(300px); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px var(--gutter) 40px;
+}
+
+/* ---------- Señal entrante (arranque) ---------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--space);
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  animation: fuera 0.6s ease 2.3s forwards;
+}
+.boot-bloque {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  font-family: var(--readout);
+  font-size: 22px;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.5);
+}
+.boot-bloque p {
+  margin: 0 0 4px;
+  opacity: 0;
+  animation: aparece 0.2s steps(2, end) forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-bloque p:nth-child(1) { animation-delay: 0.1s; }
+.boot-bloque p:nth-child(2) { animation-delay: 0.5s; }
+.boot-bloque p:nth-child(3) { animation-delay: 0.9s; }
+.boot-bloque p:nth-child(4) { animation-delay: 1.3s; }
+.boot-bloque p:nth-child(5) { animation-delay: 1.7s; color: var(--orange); }
+.boot-barra {
+  height: 8px;
+  margin-top: 14px;
+  border: 1px solid var(--amber-dim);
+  overflow: hidden;
+}
+.boot-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--amber);
+  animation: llena 1.7s linear 0.1s forwards;
+}
+@keyframes aparece { to { opacity: 1; } }
+@keyframes llena { to { width: 100%; } }
+@keyframes fuera { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Paneles metálicos con chaflán ---------- */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  padding: 18px 16px 16px;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+/* remaches */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #9aa2ad, var(--rivet) 60%, #20242b);
+  top: 6px;
+}
+.panel::before { left: 6px; }
+.panel::after { right: 6px; }
+
+.panel--cabina {
+  border-color: var(--amber-dim);
+}
+
+/* ---------- Cabecera ---------- */
+.franja {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--metal);
+}
+.franja strong { color: var(--amber); font-weight: normal; }
+
+.titulo {
+  margin: 18px 0 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(30px, 9.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  text-shadow: 0 0 18px rgba(255, 122, 26, 0.25);
+  overflow-wrap: anywhere;
+}
+.subtitulo {
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+
+.lecturas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lectura {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--metal);
+  background: rgba(0, 0, 0, 0.35);
+  min-width: 0;
+}
+.lectura dt {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.lectura dd {
+  margin: 0;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(255, 178, 58, 0.4);
+  overflow-wrap: anywhere;
+}
+.lectura--ancha { grid-column: 1 / -1; }
+.lectura--ancha dd { font-size: 24px; }
+
+.microtexto {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.microtexto span::before { content: "▸ "; color: var(--orange); }
+
+/* ---------- Títulos de sección ---------- */
+.seccion { margin-top: 30px; }
+.cabecera-sector {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--orange);
+}
+.cabecera-sector .codigo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.cabecera-sector h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.vacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 14px;
+}
+
+/* ---------- Lo esencial (teletipo) ---------- */
+.teletipo {
+  list-style: none;
+  margin: 0;
+  padding: 14px 14px 12px;
+  background: #050607;
+  border: 1px solid var(--amber-dim);
+  font-size: 15px;
+}
+.teletipo li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 178, 58, 0.1);
+}
+.teletipo li:last-child { border-bottom: 0; }
+.teletipo .hora { color: var(--orange); }
+.teletipo .texto { color: var(--bone); }
+
+/* ---------- Tarjeta de tema (expediente) ---------- */
+.lista-temas {
+  display: grid;
+  gap: 18px;
+}
+.expediente {
+  position: relative;
+  padding: 0;
+  min-width: 0;
+}
+.expediente-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--metal);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.expediente-cuerpo {
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--metal);
+  border-top: 0;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  min-width: 0;
+}
+.sello {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+}
+.sello--act {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.expediente h3 {
+  margin: 12px 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(20px, 6vw, 26px);
+  line-height: 1.15;
+  color: var(--bone);
+  overflow-wrap: anywhere;
+}
+.resumen p {
+  margin: 0 0 10px;
+  color: var(--bone);
+  font-size: 15px;
+}
+.resumen p:last-child { margin-bottom: 0; }
+
+.etiqueta-bloque {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.etiqueta-bloque::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--metal);
+}
+
+/* Chips de medios */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--rivet);
+  background: #0a0c0f;
+  color: var(--bone);
+  text-decoration: none;
+  font-size: 13px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.chip:hover,
+.chip:focus-visible { border-color: var(--orange); color: var(--orange-soft); outline: none; }
+.chip:focus-visible { box-shadow: 0 0 0 2px var(--orange); }
+
+/* Enfoque por medio + medidor de cabina */
+.enfoques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.enfoque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  padding: 10px 10px 10px 12px;
+  border-left: 2px solid var(--metal);
+  background: rgba(0, 0, 0, 0.25);
+}
+.enfoque-medio {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.enfoque-frase { margin: 0; font-size: 14px; color: var(--bone); }
+.medidor-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.medidor {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rivet);
+  background: #050607;
+}
+.medidor span {
+  display: block;
+  width: 24px;
+  height: 10px;
+  background: #1e232a;
+}
+.medidor[data-nivel="neutral"] span:nth-child(1) { background: var(--bone-dim); }
+.medidor[data-nivel="leve"] span:nth-child(-n+2) { background: var(--amber); }
+.medidor[data-nivel="marcado"] span { background: var(--orange); }
+.nivel {
+  font-family: var(--readout);
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+}
+.nivel[data-nivel="leve"] { color: var(--amber); }
+.nivel[data-nivel="marcado"] { color: var(--orange-soft); }
+
+/* Contraste de datos */
+.dato {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255, 122, 26, 0.07);
+  font-size: 15px;
+}
+.dato-cifra {
+  display: block;
+  font-family: var(--readout);
+  font-size: 30px;
+  line-height: 1.05;
+  color: var(--orange-soft);
+}
+.dato-fuente {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--bone-dim);
+}
+.dato-fuente a { color: var(--amber); }
+.dato-fuente a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* Enlaces genéricos */
+a { color: var(--amber); }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Pie ---------- */
+.pie {
+  margin-top: 34px;
+  padding: 16px;
+}
+.pie h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--bone);
+}
+.pie ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pie ul li {
+  padding: 3px 8px;
+  border: 1px dashed var(--rivet);
+  color: var(--bone-dim);
+  font-size: 13px;
+}
+.pie-datos {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+}
+.pie-datos strong { color: var(--amber); font-weight: normal; }
+.boton {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--orange);
+  color: var(--orange-soft);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.boton:hover,
+.boton:focus-visible { background: rgba(255, 122, 26, 0.12); outline: none; }
+
+/* ---------- Ajustes de ancho mayor ---------- */
+@media (min-width: 600px) {
+  .wrap { padding-top: 24px; }
+  .lecturas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lectura--ancha { grid-column: span 2; }
+  .expediente-cuerpo { padding: 18px 22px 22px; }
+  .enfoque { grid-template-columns: 150px minmax(0, 1fr); align-items: start; }
+  .enfoque .medidor-fila { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Movimiento reducido: sin animaciones ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
+  .boot { display: none; }
+  body::before, body::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Arranque: "señal entrante" (CSS puro, se oculta solo) -->
+<div class="boot" aria-hidden="true">
+  <div class="boot-bloque">
+    <p>&gt; ENLACE ENTRANTE… CANAL SEGURO</p>
+    <p>&gt; BUSCANDO PORTADORA 4.7 GHz</p>
+    <p>&gt; DESCIFRANDO CABECERA TR-0021</p>
+    <p>&gt; VERIFICANDO FUENTES (10/16)</p>
+    <p>&gt; SEÑAL ESTABLE. PARTE LISTO.</p>
+    <div class="boot-barra"><i></i></div>
+  </div>
+</div>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="panel panel--cabina">
+    <div class="franja">
+      <span>CANAL SEGURO · <strong>ENLACE 07</strong></span>
+      <span>CLASIF. <strong>B-3</strong></span>
+    </div>
+
+    <h1 class="titulo">TRANSMISIÓN<br>REBELDE</h1>
+    <p class="subtitulo">Parte diario de prensa · inteligencia de medios</p>
+
+    <dl class="lecturas">
+      <div class="lectura">
+        <dt>Fecha</dt>
+        <dd>26.11.26</dd>
+      </div>
+      <div class="lectura">
+        <dt>Nº transmisión</dt>
+        <dd>TR-0021</dd>
+      </div>
+      <div class="lectura">
+        <dt>Temas</dt>
+        <dd>09</dd>
+      </div>
+      <div class="lectura">
+        <dt>Medios</dt>
+        <dd>10</dd>
+      </div>
+      <div class="lectura lectura--ancha">
+        <dt>Hora de lectura (local)</dt>
+        <dd id="reloj">--:--</dd>
+      </div>
+    </dl>
+
+    <div class="microtexto" aria-hidden="true">
+      <span>Coord. 40°25′N 03°42′O</span>
+      <span>Sectores 01–07</span>
+      <span>Emisión 07:00 h</span>
+      <span>Ventana 24 h · emisión 07:00 h</span>
+    </div>
+  </header>
+
+  <!-- ===================== LO ESENCIAL ===================== -->
+  <section class="seccion" aria-labelledby="esencial">
+    <div class="cabecera-sector">
+      <span class="codigo">BLOQUE 00</span>
+      <h2 id="esencial">Lo esencial</h2>
+    </div>
+
+    <ol class="teletipo">
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">05:52</span><span class="texto">España se acerca a los 50 millones y la inmigración entra en el debate electoral</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">17:32</span><span class="texto">El PP promete dedicar el 1% del PIB a las universidades públicas</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">20:14</span><span class="texto">Un choque de un camión cisterna causa decenas de víctimas en las afueras de El Cairo</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">22:09</span><span class="texto">La previsión de fuertes vientos aplaza por primera vez el desfile de Thanksgiving de Macy’s</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+      <!-- INICIO LO ESENCIAL ITEM -->
+      <li><span class="hora">23:42</span><span class="texto">Tres clubes españoles ganaron en la quinta jornada de la Champions.</span></li>
+      <!-- FIN LO ESENCIAL ITEM -->
+    </ol>
+  </section>
+
+  <!-- ===================== SECTOR: ESPAÑA ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="espana" aria-labelledby="t-espana">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 01</span>
+      <h2 id="t-espana">España</h2>
+    </div>
+
+    <div class="lista-temas">
+      <article class="expediente" aria-labelledby="tema-1-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-01 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-1-titulo">España se acerca a los 50 millones y la inmigración entra en el debate electoral</h3><div class="resumen"><p>La BBC analiza cómo la inmigración ha cambiado la composición demográfica española durante la última década y por qué se ha convertido en un asunto central de la campaña electoral. El artículo se publicó esta mañana y relaciona el debate político con los nuevos datos censales.</p><p>El Censo Anual del INE sitúa la población en 49.618.622 personas a 1 de enero de 2026; el 20,3% había nacido fuera de España y el 14,7% tenía nacionalidad extranjera. Son categorías distintas y el dato censal no mide por sí solo el efecto de la inmigración en empleo, vivienda o servicios.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://www.bbc.com/mundo/articles/ckq5vgpwwq76o?at_medium=RSS&amp;at_campaign=rss" rel="noopener">BBC Mundo</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">BBC Mundo</span><p class="enfoque-frase">El titular conecta transformación demográfica e inmigración con la campaña; el enfoque es explicativo y no atribuye una sola causa a los cambios.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">49,6 millones</span>El INE cifra en 49.618.622 la población censada a 1 de enero de 2026; distingue nacionalidad extranjera (14,7%) de nacimiento en el extranjero (20,3%).<span class="dato-fuente">Fuente de contraste: <a href="https://www.ine.es/dyngs/Prensa/es/Censo22026.htm" rel="noopener">INE · Censo Anual de Población</a></span></blockquote></div></article>
+      <article class="expediente" aria-labelledby="tema-2-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-02 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-2-titulo">El PP promete dedicar el 1% del PIB a las universidades públicas</h3><div class="resumen"><p>El PP se compromete a alcanzar una inversión pública equivalente al 1% del PIB para las universidades públicas. El País contrasta esa promesa con la actuación de gobiernos autonómicos del propio partido y recoge las discrepancias en torno a reuniones y financiación.</p><p>La cifra es un objetivo legal compartido entre Estado, comunidades autónomas y universidades, no una dotación presupuestaria ya acordada ni ejecutada. La pieza cita la LOSU y señala que la financiación depende de decisiones de varias administraciones.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/educacion/2026-11-25/el-pp-se-compromete-a-llegar-a-un-1-de-inversion-en-universidades-mientras-algunos-de-sus-gobiernos-reman-en-contra.html" rel="noopener">El País</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">El titular contrapone la promesa nacional con la conducta de gobiernos autonómicos del PP; combina el compromiso electoral con el desacuerdo político sobre su aplicación.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">1% del PIB</span>La Ley Orgánica del Sistema Universitario recoge ese objetivo para el conjunto de las universidades públicas; no equivale a gasto aprobado para este ejercicio.<span class="dato-fuente">Fuente de contraste: <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2023-7500" rel="noopener">BOE · Ley Orgánica 2/2023, art. 55</a></span></blockquote></div></article>
+      <article class="expediente" aria-labelledby="tema-3-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-03 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-3-titulo">Tripulaciones de Salvamento Marítimo denuncian jornadas de hasta 18 horas en El Hierro</h3><div class="resumen"><p>Trabajadores y representantes sindicales describen jornadas de hasta 18 horas y descansos insuficientes en las operaciones de rescate de El Hierro. El País recoge sus peticiones de más relevos y personal para sostener el servicio ante la actividad de la ruta canaria.</p><p>La información atribuye las denuncias a las tripulaciones y también incorpora la respuesta de Salvamento Marítimo: desde principios de noviembre el dispositivo contaba con tres salvamares y una guardamar, además de medios desplazados desde otras islas. No se publica un registro independiente de horas trabajadas.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/espana/2026-11-25/las-tripulaciones-de-salvamento-maritimo-denuncian-jornadas-de-hasta-18-horas-en-el-hierro-somos-los-primeros-en-la-linea-de-batalla.html" rel="noopener">El País</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">El titular destaca la denuncia de los trabajadores y usa una frase de un representante sindical; el texto añade la versión de la empresa pública y los medios desplegados.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Hasta 18 horas</span>La duración procede de testimonios sindicales recogidos por El País. La fuente añade la respuesta de Salvamento Marítimo, pero no aporta un registro oficial independiente de jornadas.<span class="dato-fuente">Fuente de contraste: <a href="https://elpais.com/espana/2026-11-25/las-tripulaciones-de-salvamento-maritimo-denuncian-jornadas-de-hasta-18-horas-en-el-hierro-somos-los-primeros-en-la-linea-de-batalla.html" rel="noopener">El País · testimonios y respuesta de Salvamento Marítimo</a></span></blockquote></div></article>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: INTERNACIONAL ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="internacional" aria-labelledby="t-internacional">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 02</span>
+      <h2 id="t-internacional">Internacional</h2>
+    </div>
+
+    <div class="lista-temas">
+      <article class="expediente" aria-labelledby="tema-4-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-04 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-4-titulo">Un choque de un camión cisterna causa decenas de víctimas en las afueras de El Cairo</h3><div class="resumen"><p>Un camión cisterna de combustible chocó y provocó un gran incendio en la carretera circular de El Cairo. Associated Press informó de al menos 31 personas muertas y 25 heridas, con cifras atribuidas a las autoridades egipcias.</p><p>La nota describe un siniestro vial y la respuesta de emergencia; la investigación aún debe determinar cómo se produjo el choque. AP no presenta un balance independiente de víctimas, por lo que las cifras se mantienen atribuidas a las autoridades.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/89e4cd3d3d53016c9c35440b57c5ea1e" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">El titular coloca el incendio y el balance de víctimas en primer plano; la agencia atribuye el balance a las autoridades egipcias y no adelanta una causa confirmada.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Al menos 31 muertos</span>Balance comunicado por autoridades egipcias y reproducido por AP; no se localizó un segundo recuento independiente en la cobertura consultada.<span class="dato-fuente">Fuente de contraste: <a href="https://apnews.com/article/89e4cd3d3d53016c9c35440b57c5ea1e" rel="noopener">AP · declaraciones oficiales egipcias</a></span></blockquote></div></article>
+      <article class="expediente" aria-labelledby="tema-5-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-05 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-5-titulo">Melania Trump anuncia otra reunificación de menores separados por la guerra</h3><div class="resumen"><p>La Casa Blanca anunció que nueve menores ucranianos y rusos regresaron con sus familias en la séptima operación de este tipo en la que participa la primera dama estadounidense. AP sitúa en 43 el total acumulado de menores reunidos, según el anuncio oficial.</p><p>No se divulgaron identidades ni detalles de los casos. La información se basa en declaraciones de Melania Trump y del Gobierno estadounidense; no permite verificar de forma independiente cada reunificación ni las circunstancias de separación.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/melania-trump-ukraine-russia-children-4fa1ae5512f4fb71dc36478b0f44514e" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">AP destaca el nuevo grupo y explica la iniciativa de la primera dama; identifica las cifras como datos de la Casa Blanca y advierte que no se facilitaron detalles de los menores.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">9 menores; 43 en total</span>Cifras anunciadas por la Casa Blanca y recogidas por AP. No hay información pública individual que permita una comprobación independiente.<span class="dato-fuente">Fuente de contraste: <a href="https://apnews.com/article/melania-trump-ukraine-russia-children-4fa1ae5512f4fb71dc36478b0f44514e" rel="noopener">AP · anuncio de la Casa Blanca</a></span></blockquote></div></article>
+      <article class="expediente" aria-labelledby="tema-6-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-06 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-6-titulo">Washington prepara nuevos aranceles a China, la UE y otros socios</h3><div class="resumen"><p>La Administración Trump anunció planes para elevar aranceles a productos de China, la Unión Europea, Brasil y otros países, bajo el argumento de que sus fábricas reciben subsidios o generan exceso de capacidad. La medida se tramitaría mediante investigaciones comerciales y consultas con los sectores afectados.</p><p>AP señala que el calendario todavía no está cerrado: la audiencia prevista para enero precedería a una posible entrada en vigor en febrero o marzo. Por tanto, se trata de aranceles propuestos; la nota no presenta tipos definitivos ni un impacto medido sobre precios o comercio.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/trump-tariffs-china-european-union-367083ea32f71fd7f70029ba7df66bf0" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">El titular y la entradilla detallan los países afectados y la justificación de la Casa Blanca; el cuerpo añade críticas de legisladores y expertos y aclara que las tasas aún no están vigentes.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Propuesta, no arancel en vigor</span>Según AP, la Administración debe recibir comentarios de las industrias y celebrar una audiencia el 25 de enero; la fecha y el alcance finales siguen pendientes.<span class="dato-fuente">Fuente de contraste: <a href="https://apnews.com/article/trump-tariffs-china-european-union-367083ea32f71fd7f70029ba7df66bf0" rel="noopener">AP · calendario del procedimiento comercial</a></span></blockquote></div></article>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: EE. UU. ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="eeuu" aria-labelledby="t-eeuu">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 03</span>
+      <h2 id="t-eeuu">EE. UU.</h2>
+    </div>
+
+    <div class="lista-temas">
+      <article class="expediente" aria-labelledby="tema-7-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-07 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-7-titulo">La previsión de fuertes vientos aplaza por primera vez el desfile de Thanksgiving de Macy’s</h3><div class="resumen"><p>Los organizadores trasladaron al sábado el desfile del Día de Acción de Gracias de Nueva York, previsto para este jueves, por el pronóstico de viento intenso y lluvia. AP recoge que el Servicio Meteorológico Nacional emitió avisos de viento fuerte e inundación costera.</p><p>E! News informa de que NBC emitirá en su lugar una repetición del desfile de 2025. La decisión prioriza la seguridad por el riesgo de que las rachas afecten a los globos y al público; la organización aún revisa la logística y la participación del elenco.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/macys-thanksgiving-parade-postponed-weather-cdc870899c8dc2d32a0ac3d86119b3ba" rel="noopener">Associated Press</a></li><li><a class="chip" href="https://www.eonline.com/news/1438424/nbcs-macys-thanksgiving-day-parade-2026-what-will-air-instead" rel="noopener">E! News</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">AP presenta el aplazamiento como una decisión de seguridad y cita a la alcaldía y al Servicio Meteorológico; también contextualiza por qué el viento afecta a los globos.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">E! News</span><p class="enfoque-frase">E! se centra en la programación televisiva que sustituirá el directo; su enfoque es práctico y de entretenimiento, sin desarrollar el riesgo meteorológico.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Jueves → sábado</span>La alcaldía cita alertas de viento fuerte e inundación costera del Servicio Meteorológico Nacional. AP informa que el evento se pospone por primera vez, según un portavoz de Macy’s.<span class="dato-fuente">Fuente de contraste: <a href="https://apnews.com/article/macys-thanksgiving-parade-postponed-weather-cdc870899c8dc2d32a0ac3d86119b3ba" rel="noopener">AP · Servicio Meteorológico Nacional y organización</a></span></blockquote></div></article>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: VENEZUELA Y LATINOAMÉRICA ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="latam" aria-labelledby="t-latam">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 04</span>
+      <h2 id="t-latam">Venezuela y Latinoamérica</h2>
+    </div>
+
+    <div class="lista-temas">
+      <p class="vacio">Sin temas de alta prioridad en esta transmisión.</p>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: DEPORTES ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="deportes" aria-labelledby="t-deportes">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 05</span>
+      <h2 id="t-deportes">Deportes</h2>
+    </div>
+    <div class="lista-temas">
+      <article class="expediente" aria-labelledby="tema-8-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-08 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-8-titulo">Barcelona, Atlético y Villarreal cierran la jornada europea con victorias</h3><div class="resumen"><p>El Barcelona venció 4-1 al Sabah en Bakú; el Atlético ganó 2-0 al Viking y el Villarreal se impuso 1-0 al Slavia de Praga. Los tres sumaron triunfos en la quinta jornada de la fase liga de la Champions.</p><p>El País repasa los partidos de Barcelona y Villarreal, mientras AS subraya la eficacia del nuevo tridente azulgrana y el doblete de Anthony Gordon. La UEFA confirma resultados y goleadores en su resumen oficial.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://elpais.com/deportes/futbol/2026-11-25/sabah-fc-barcelona-en-directo-el-partido-de-la-champions-league-en-vivo.html" rel="noopener">El País</a></li><li><a class="chip" href="https://as.com/futbol/champions/el-nuevo-tridente-liquida-el-tramite-f202611-n/" rel="noopener">AS</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">El País</span><p class="enfoque-frase">Relata el desarrollo de Barcelona-Sabah y destaca también el triunfo del Villarreal en Praga; tono de crónica, centrado en los partidos españoles.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li><li class="enfoque"><span class="enfoque-medio">AS</span><p class="enfoque-frase">Califica la victoria del Barça como contundente pero sin alardes y enfoca la crónica en el ataque; cuantifica los disparos a puerta, sin extrapolarlo al resto de la jornada.</p><div class="medidor-fila"><span class="medidor" data-nivel="leve" role="img" aria-label="Sesgo: leve"><span></span><span></span><span></span></span><span class="nivel" data-nivel="leve">LEVE</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">Tres victorias españolas</span>Resultados contrastados con el resumen oficial de UEFA: Sabah 1-4 Barcelona, Atlético 2-0 Viking y Slavia Praga 0-1 Villarreal.<span class="dato-fuente">Fuente de contraste: <a href="https://es.uefa.com/uefachampionsleague/news/02ab-2228891d7a0b-9c508d3bcdee-1000--resumen-y-videos-del-miercoles-de-la-jornada-5-de-la-cha/" rel="noopener">UEFA · resumen oficial de la jornada</a></span></blockquote></div></article>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: ESPECTÁCULOS ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="espectaculos" aria-labelledby="t-espectaculos">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 06</span>
+      <h2 id="t-espectaculos">Espectáculos</h2>
+    </div>
+    <div class="lista-temas">
+      <article class="expediente" aria-labelledby="tema-9-titulo"><div class="expediente-cabecera"><span>EXP. TR0021-09 · Clasif. público</span><span class="sello">NUEVO</span></div><div class="expediente-cuerpo"><h3 id="tema-9-titulo">Muere a los 65 años Andy Taylor, guitarrista original de Duran Duran</h3><div class="resumen"><p>Andy Taylor, guitarrista de la formación original de Duran Duran, murió a los 65 años, informó Associated Press el miércoles. La banda británica fue una de las figuras del new wave de los años ochenta y tuvo éxitos como “Rio” y “The Reflex”.</p><p>Taylor había contado en 2022 que padecía cáncer de próstata metastásico en fase avanzada. La noticia de AP atribuye el fallecimiento a un anuncio de su familia; no añade detalles sobre la causa inmediata.</p></div><p class="etiqueta-bloque">Lo cubren</p><ul class="chips"><li><a class="chip" href="https://apnews.com/article/2334d13b2b0b0196488721611036d977" rel="noopener">Associated Press</a></li></ul><p class="etiqueta-bloque">Enfoque por medio</p><ul class="enfoques"><li class="enfoque"><span class="enfoque-medio">Associated Press</span><p class="enfoque-frase">El titular identifica su papel en la banda y su edad; el texto resume su legado musical y recoge el dato de salud que él mismo hizo público, sin especular sobre la causa inmediata.</p><div class="medidor-fila"><span class="medidor" data-nivel="neutral" role="img" aria-label="Sesgo: neutral"><span></span><span></span><span></span></span><span class="nivel" data-nivel="neutral">NEUTRAL</span></div></li></ul><p class="etiqueta-bloque">Contraste de datos</p><blockquote class="dato"><span class="dato-cifra">65 años</span>Edad y condición de miembro original atribuidas por AP al anuncio familiar y a los antecedentes públicos del músico.<span class="dato-fuente">Fuente de contraste: <a href="https://apnews.com/article/2334d13b2b0b0196488721611036d977" rel="noopener">AP · anuncio familiar y trayectoria pública</a></span></blockquote></div></article>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== SECTOR: OTROS ===================== -->
+  <!-- INICIO SECTOR -->
+  <section class="seccion" id="otros" aria-labelledby="t-otros">
+    <div class="cabecera-sector">
+      <span class="codigo">SECTOR 07</span>
+      <h2 id="t-otros">Otros</h2>
+    </div>
+    <div class="lista-temas">
+      <p class="vacio">Sin temas de alta prioridad en esta transmisión.</p>
+    </div>
+  </section>
+  <!-- FIN SECTOR -->
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="panel pie">
+    <h2>Medios no disponibles hoy</h2>
+    <ul>
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>CNN (RSS inaccesible tras tres intentos)</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+      <!-- INICIO MEDIO NO DISPONIBLE -->
+      <li>Fox Sports México (error DNS en portada)</li>
+      <!-- FIN MEDIO NO DISPONIBLE -->
+    </ul>
+
+    <p class="pie-datos">
+      Generado: <strong>26.11.26 06:37 h</strong><br>
+      Transmisión: <strong>TR-0021</strong> · Temas: <strong>09</strong> · Medios consultados: <strong>10 de 16</strong>
+    </p>
+
+    <a class="boton" href="index.html">Archivo de transmisiones</a>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  /* Reloj de lectura: solo decorativo, con protección por si falla */
+  var reloj = document.getElementById('reloj');
+  if (!reloj) return;
+  function actualizar() {
+    try {
+      reloj.textContent = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      reloj.textContent = '--:--';
+    }
+  }
+  actualizar();
+  setInterval(actualizar, 30000);
+})();
+</script>
+</body>
+</html>
